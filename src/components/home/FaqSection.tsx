@@ -1,11 +1,11 @@
 const FAQ = [
   {
-    q: "Como personalizo a caneca?",
-    a: "Você escolhe foto, frase (até 60 caracteres) ou uma arte pronta da loja. A gente confirma tudo no WhatsApp antes de produzir.",
+    q: "Posso misturar sabores na minha caixinha?",
+    a: "Sim! Você escolhe a quantidade de cada sabor no cardápio ou no montador de caixinha — do jeito que quiser.",
   },
   {
-    q: "Qual é o prazo?",
-    a: "Pedidos com foto passam por sublimação e levam alguns dias. Combinamos o prazo certinho no WhatsApp, conforme a sua data.",
+    q: "Qual é o prazo para retirar ou receber?",
+    a: "Pedidos do dia a dia costumam ficar prontos rapidinho. Para caixinhas grandes ou datas especiais, combinamos o prazo certinho no WhatsApp.",
   },
   {
     q: "Vocês entregam?",
@@ -13,20 +13,20 @@ const FAQ = [
   },
   {
     q: "Como faço o pagamento?",
-    a: "Tudo pelo WhatsApp — não há pagamento online aqui no site. Você fecha direto com a gente.",
+    a: "Aceitamos dinheiro, Pix, débito e crédito. Tudo combinado direto pelo WhatsApp — não há pagamento online aqui no site.",
   },
   {
     q: "As trufas são feitas por vocês?",
-    a: "Sim, são artesanais e feitas à mão, com 16 sabores para você montar a sua caixinha.",
+    a: "Sim, são artesanais e feitas à mão, com 44 sabores para você montar a sua caixinha.",
   },
 ];
 
 export function FaqSection() {
   return (
-    <section id="faq" className="bg-creme-soft py-16 sm:py-24">
+    <section id="faq" className="bg-marrom py-16 sm:py-24">
       <div className="mx-auto max-w-3xl px-4">
         <div className="text-center">
-          <h2 className="font-display text-3xl text-marrom sm:text-4xl">
+          <h2 className="font-display text-3xl text-creme sm:text-4xl">
             Perguntas frequentes
           </h2>
         </div>
@@ -35,9 +35,9 @@ export function FaqSection() {
           {FAQ.map((f) => (
             <details
               key={f.q}
-              className="group rounded-2xl border border-dourado/30 bg-creme p-5 shadow-sm"
+              className="group rounded-2xl border border-dourado/25 bg-marrom-deep/50 p-5 shadow-sm"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-marrom">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-creme">
                 {f.q}
                 <span className="text-xl text-dourado transition group-open:rotate-45">
                   +

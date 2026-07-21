@@ -23,7 +23,7 @@ export function LoadingScreen() {
   return (
     <div
       aria-hidden={hidden}
-      className={`fixed inset-0 z-[100] grid place-items-center bg-creme transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] grid place-items-center bg-marrom-deep transition-opacity duration-500 ${
         hidden ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
@@ -31,11 +31,11 @@ export function LoadingScreen() {
         <img
           src={mascote}
           alt="Carregando"
-          className="animate-spin-mascote h-24 w-auto drop-shadow-[0_10px_16px_rgba(44,26,20,0.25)]"
+          className="animate-spin-mascote h-24 w-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
           width={721}
           height={896}
         />
-        <span className="font-display text-lg tracking-wide text-marrom">
+        <span className="font-display text-lg tracking-wide text-dourado-soft">
           Sr. Trufa
         </span>
       </div>

@@ -21,16 +21,16 @@ export function NossaHistoriaSection() {
           />
         </div>
         <div className="order-1 lg:order-2">
-          <span className="inline-block rounded-full border border-dourado-soft/50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-dourado-soft">
+          <span className="font-script block text-xl text-dourado-soft/90">
             Nossa história
           </span>
-          <h2 className="mt-4 font-display text-3xl text-creme sm:text-4xl">
-            Cada trufa, um detalhe. Cada caneca, uma história.
+          <h2 className="mt-2 font-display text-3xl text-creme sm:text-4xl">
+            Cada trufa, um detalhe.
           </h2>
           <p className="mt-4 text-creme/85">
             O Sr. Trufa nasceu do gosto por detalhes e por presentes que dizem algo.
-            Transformamos trufas artesanais e canecas em lembranças que ficam — tudo feito
-            à mão, conferido um a um e embalado com capricho, do jeito antigo em que cada
+            Transformamos trufas artesanais em lembranças que ficam — tudo feito à mão,
+            conferido uma a uma e embalado com capricho, do jeito antigo em que cada
             detalhe importa.
           </p>
           <ul className="mt-6 flex flex-wrap gap-2">

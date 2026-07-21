@@ -12,6 +12,7 @@ import { OrderModal } from "@/components/ui/OrderModal";
 import { B2BSection } from "@/components/home/B2BSection";
 
 const CATEGORIAS: Categoria[] = ["classicos", "frutas", "brancos", "especiais"];
+const FORMAS_PAGAMENTO = ["Dinheiro", "Pix", "Débito", "Crédito"];
 type Modo = "b2c" | "b2b";
 
 export function CardapioSection() {
@@ -27,15 +28,15 @@ export function CardapioSection() {
 
         {/* Cabeçalho */}
         <div className="mb-10 text-center">
-          <span className="inline-block rounded-full border border-dourado/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-dourado">
-            Cardápio Digital
-          </span>
-          <h2 className="mt-4 font-display text-3xl text-creme sm:text-4xl">
+          <h2 className="font-display text-4xl text-dourado-soft sm:text-5xl">
             Nossos Sabores
           </h2>
-          <p className="mt-3 text-sm text-marrom-soft">
-            44 sabores artesanais · todos feitos à mão em Barretos/SP
+          <p className="font-script mt-1 text-xl text-creme/80">
+            Escolha o seu — todos feitos à mão
           </p>
+          <div className="brand-divider mx-auto mt-6 max-w-xs">
+            <span className="brand-divider__diamond" />
+          </div>
         </div>
 
         {/* Toggle B2C / B2B */}
@@ -73,10 +74,6 @@ export function CardapioSection() {
         {/* ── VERSÃO B2C ── */}
         {modo === "b2c" && (
           <>
-            <p className="mb-6 text-center font-semibold text-lg text-dourado">
-              {formatBRL(config.precoTrufa)} cada
-            </p>
-
             {/* Tabs de categoria */}
             <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
               {CATEGORIAS.map((cat) => (
@@ -109,17 +106,45 @@ export function CardapioSection() {
               ))}
             </ul>
 
-            <p className="mt-6 text-center text-xs text-marrom-soft italic">
-              💳 No crédito: {formatBRL(config.precoTrufaCredito)} por trufa
-              (acréscimo da maquininha)
-            </p>
+            {/* Preço, como no cardápio impresso */}
+            <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-dourado/40 bg-marrom-deep/50 px-6 py-6 sm:flex-row sm:px-8">
+              <div>
+                <p className="font-script text-xl text-dourado">Cada trufa artesanal</p>
+                <p className="text-xs text-marrom-soft">Dinheiro e Pix — preço cheio</p>
+              </div>
+              <p className="font-display text-4xl font-bold text-creme sm:text-5xl">
+                {formatBRL(config.precoTrufa)}
+              </p>
+            </div>
+
+            {/* Formas de pagamento */}
+            <div className="mt-8">
+              <p className="text-center text-[11px] font-bold uppercase tracking-widest text-dourado">
+                Formas de pagamento
+              </p>
+              <div className="mt-3 flex flex-wrap justify-center gap-2">
+                {FORMAS_PAGAMENTO.map((forma) => (
+                  <span
+                    key={forma}
+                    className="flex items-center gap-1.5 rounded-full border border-dourado/40 px-4 py-1.5 text-sm font-semibold text-creme"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-dourado" />
+                    {forma}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-center text-xs text-marrom-soft italic">
+                No crédito, cada trufa sai por {formatBRL(config.precoTrufaCredito)} —
+                acréscimo por conta da taxa da maquininha.
+              </p>
+            </div>
 
             {/* CTAs */}
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <button
                 type="button"
                 onClick={() => setModalOpen(true)}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-laranja px-8 py-4 text-base font-semibold text-creme shadow-lg shadow-laranja/30 transition hover:bg-laranja-deep sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-8 py-4 text-base font-semibold text-marrom-deep shadow-lg shadow-dourado/20 transition hover:bg-dourado-soft sm:w-auto"
               >
                 <ShoppingBag className="h-5 w-5" />
                 Fazer meu pedido

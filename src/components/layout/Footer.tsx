@@ -4,12 +4,15 @@ import { buildWhatsappUrl, mensagemGeral } from "@/lib/whatsapp";
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-dourado/30 bg-marrom text-creme">
+    <footer className="mt-20 border-t border-dourado/30 bg-marrom-deep text-creme">
+      <div className="brand-divider mx-auto max-w-6xl px-4 pt-10">
+        <span className="brand-divider__diamond" />
+      </div>
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <h3 className="font-display text-2xl text-creme">Sr. Trufa</h3>
+          <h3 className="font-display text-2xl text-dourado-soft">Sr. Trufa</h3>
           <p className="mt-2 text-sm text-creme/80">
-            Feito à mão em {config.cidade}. Cada peça conferida uma a uma antes de chegar
+            Feito à mão em {config.cidade}. Cada trufa conferida uma a uma antes de chegar
             até você.
           </p>
         </div>
@@ -33,10 +36,6 @@ export function Footer() {
             Zona central · R$ 8
             <br />
             Zonas afastadas · R$ 12
-            <br />
-            <span className="text-creme/60">
-              No dia 12, em 2 turnos: manhã 09h–12h / tarde 14h–17h.
-            </span>
           </p>
         </div>
 
@@ -61,8 +60,8 @@ export function Footer() {
             </a>
           </div>
           <p className="mt-4 text-xs text-creme/60">
-            ⏰ Personalize com foto, frase ou arte pronta. O prazo de produção é
-            combinado no WhatsApp.
+            ⏰ Caixinhas grandes ou pedidos de última hora: o prazo é combinado
+            certinho no WhatsApp.
           </p>
         </div>
       </div>

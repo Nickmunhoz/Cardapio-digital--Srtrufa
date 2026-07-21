@@ -61,19 +61,19 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-label="Escolher trufas avulsas"
-      className="fixed inset-0 z-50 flex items-end justify-center bg-marrom/60 p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-marrom-deep/80 p-0 sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-creme-soft shadow-2xl sm:rounded-2xl"
+        className="relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-marrom shadow-2xl sm:rounded-2xl"
       >
-        <header className="flex items-start justify-between gap-4 border-b border-dourado/30 px-5 py-4 sm:px-7">
+        <header className="flex items-start justify-between gap-4 border-b border-dourado/25 px-5 py-4 sm:px-7">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-marrom-soft">
+            <p className="text-xs font-semibold uppercase tracking-wider text-dourado">
               Trufas avulsas
             </p>
-            <h3 className="mt-0.5 font-display text-2xl text-marrom">
+            <h3 className="mt-0.5 font-display text-2xl text-creme">
               Monte sua caixinha
             </h3>
           </div>
@@ -81,7 +81,7 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
             type="button"
             onClick={onClose}
             aria-label="Fechar"
-            className="rounded-full p-2 text-marrom hover:bg-dourado-soft/40"
+            className="rounded-full p-2 text-creme hover:bg-creme/10"
           >
             <X className="h-5 w-5" />
           </button>
@@ -96,12 +96,12 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
                   key={t.id}
                   className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 ${
                     qty > 0
-                      ? "border-dourado bg-dourado-soft/30"
-                      : "border-dourado/30 bg-creme"
+                      ? "border-dourado bg-dourado/15"
+                      : "border-dourado/20 bg-marrom-deep/40"
                   }`}
                 >
                   <div className="min-w-0">
-                    <span className="truncate text-sm font-semibold text-marrom">
+                    <span className="truncate text-sm font-semibold text-creme">
                       {t.nome}
                     </span>
                     <p className="text-xs text-dourado">{formatBRL(config.precoTrufa)}</p>
@@ -112,18 +112,18 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
                       aria-label={`Remover ${t.nome}`}
                       onClick={() => setQty(t.id, -1)}
                       disabled={qty === 0}
-                      className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-marrom disabled:opacity-30"
+                      className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme disabled:opacity-30"
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
-                    <span className="w-5 text-center text-sm font-semibold tabular-nums text-marrom">
+                    <span className="w-5 text-center text-sm font-semibold tabular-nums text-creme">
                       {qty}
                     </span>
                     <button
                       type="button"
                       aria-label={`Adicionar ${t.nome}`}
                       onClick={() => setQty(t.id, 1)}
-                      className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-marrom disabled:opacity-30"
+                      className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme disabled:opacity-30"
                     >
                       <Plus className="h-3.5 w-3.5" />
                     </button>
@@ -134,7 +134,7 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
           </ul>
         </div>
 
-        <footer className="border-t border-dourado/30 bg-creme-soft px-5 py-4 sm:px-7">
+        <footer className="border-t border-dourado/25 bg-marrom-deep/40 px-5 py-4 sm:px-7">
           <div className="mb-3 flex items-center justify-between text-sm">
             <span className="text-marrom-soft">
               Subtotal ({total} {total === 1 ? "trufa" : "trufas"})
@@ -147,7 +147,7 @@ export function TrufflePickerModal({ onClose }: { onClose: () => void }) {
             type="button"
             onClick={pedir}
             disabled={total === 0}
-            className="w-full rounded-full bg-laranja px-6 py-3.5 text-sm font-semibold text-creme shadow transition enabled:hover:bg-laranja-deep disabled:opacity-40 sm:text-base"
+            className="w-full rounded-full bg-dourado px-6 py-3.5 text-sm font-semibold text-marrom-deep shadow transition enabled:hover:bg-dourado-soft disabled:opacity-40 sm:text-base"
           >
             Pedir no WhatsApp
           </button>

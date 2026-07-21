@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 /* ===== Design tokens da marca Sr. Trufa (Tailwind v4 @theme) ===== */
+/* Paleta alinhada ao cardápio impresso e ao display de QR Code: */
+/* fundo chocolate escuro, dourado de destaque, creme para texto. */
 @theme {
-  --color-creme: #efe1cf;
-  --color-creme-soft: #f6ecdd;
-  --color-marrom: #2c1a14;
-  --color-marrom-soft: #6e4b3a;
-  --color-dourado: #a87b2e;
+  --color-creme: #f5ead9;
+  --color-creme-soft: #efe1cf;
+  --color-marrom: #2b1408;
+  --color-marrom-deep: #1c0d05;
+  --color-marrom-soft: #c9b29e;
+  --color-dourado: #c9a24a;
   --color-dourado-soft: #e3cda1;
-  --color-laranja: #f05a25;
-  --color-laranja-deep: #d4481a;
+  --color-laranja: #c9a24a;
+  --color-laranja-deep: #b38a37;
   --color-azul: #3fa9f6;
 
   --font-display: "Playfair Display", Georgia, serif;
+  --font-script: "Dancing Script", cursive;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -21,11 +25,70 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-creme);
-    color: var(--color-marrom);
+    background-color: var(--color-marrom);
+    color: var(--color-creme);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+}
+
+/* ===== Ornamentos da identidade impressa ===== */
+
+/* Divisor com losango dourado central, igual ao cardápio/QR impressos */
+.brand-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.brand-divider::before,
+.brand-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-dourado) 0%, transparent),
+    color-mix(in srgb, var(--color-dourado) 70%, transparent)
+  );
+}
+.brand-divider::after {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-dourado) 70%, transparent),
+    color-mix(in srgb, var(--color-dourado) 0%, transparent)
+  );
+}
+.brand-divider__diamond {
+  height: 0.4rem;
+  width: 0.4rem;
+  flex: none;
+  rotate: 45deg;
+  background: var(--color-dourado);
+}
+
+/* Cantos em "L" dourados, como na moldura do cardápio e do display */
+.brand-corners {
+  position: relative;
+}
+.brand-corners::before,
+.brand-corners::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 2.25rem;
+  width: 2.25rem;
+  border-color: color-mix(in srgb, var(--color-dourado) 55%, transparent);
+  pointer-events: none;
+}
+.brand-corners::before {
+  left: 0;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.brand-corners::after {
+  right: 0;
+  border-top: 2px solid;
+  border-right: 2px solid;
 }
 
 /* ===== Animações ===== */

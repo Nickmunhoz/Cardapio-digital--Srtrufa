@@ -55,8 +55,3 @@ export const config = {
    */
   formspreeId: "",
 };
-
-/** Personalização com foto disponível o ano todo. */
-export function fotoPersonalizadaDisponivel(): boolean {
-  return true;
-}

@@ -94,20 +94,20 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-label="Fazer pedido"
-      className="fixed inset-0 z-50 flex items-end justify-center bg-marrom/70 p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-marrom-deep/80 p-0 sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-[94vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-creme-soft shadow-2xl sm:rounded-2xl"
+        className="relative flex max-h-[94vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-marrom shadow-2xl sm:rounded-2xl"
       >
         {/* Header */}
-        <header className="flex items-center justify-between border-b border-dourado/30 px-5 py-4">
+        <header className="flex items-center justify-between border-b border-dourado/25 px-5 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-marrom-soft">
+            <p className="text-xs font-semibold uppercase tracking-wider text-dourado">
               {step === "sabores" ? "Passo 1 de 2" : step === "contato" ? "Passo 2 de 2" : ""}
             </p>
-            <h3 className="mt-0.5 font-display text-xl text-marrom">
+            <h3 className="mt-0.5 font-display text-xl text-creme">
               {step === "sabores" && "Escolha seus sabores"}
               {step === "contato" && "Finalizar pedido"}
               {step === "enviando" && "Enviando…"}
@@ -116,7 +116,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
             </h3>
           </div>
           <button type="button" onClick={onClose} aria-label="Fechar"
-            className="rounded-full p-2 text-marrom hover:bg-dourado-soft/40">
+            className="rounded-full p-2 text-creme hover:bg-creme/10">
             <X className="h-5 w-5" />
           </button>
         </header>
@@ -128,7 +128,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
               {CATEGORIAS.map((cat) => (
                 <button key={cat} type="button" onClick={() => setTab(cat)}
                   className={["flex-none rounded-full px-3 py-1 text-xs font-semibold transition whitespace-nowrap",
-                    tab === cat ? "bg-marrom text-creme" : "text-marrom-soft hover:text-marrom"].join(" ")}>
+                    tab === cat ? "bg-dourado text-marrom-deep" : "text-marrom-soft hover:text-creme"].join(" ")}>
                   {categoriaLabel[cat]}
                 </button>
               ))}
@@ -141,18 +141,18 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                   return (
                     <li key={t.id}
                       className={["flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 transition",
-                        qty > 0 ? "border-dourado bg-dourado-soft/30" : "border-dourado/25 bg-creme"].join(" ")}>
-                      <span className="text-sm font-semibold text-marrom">{t.nome}</span>
+                        qty > 0 ? "border-dourado bg-dourado/15" : "border-dourado/20 bg-marrom-deep/40"].join(" ")}>
+                      <span className="text-sm font-semibold text-creme">{t.nome}</span>
                       <div className="flex items-center gap-2">
                         <button type="button" onClick={() => setQty(t.id, -1)} disabled={qty === 0}
                           aria-label={`Remover ${t.nome}`}
-                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-marrom disabled:opacity-30">
+                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme disabled:opacity-30">
                           <Minus className="h-3.5 w-3.5" />
                         </button>
-                        <span className="w-5 text-center text-sm font-bold tabular-nums text-marrom">{qty}</span>
+                        <span className="w-5 text-center text-sm font-bold tabular-nums text-creme">{qty}</span>
                         <button type="button" onClick={() => setQty(t.id, 1)}
                           aria-label={`Adicionar ${t.nome}`}
-                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-marrom">
+                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme">
                           <Plus className="h-3.5 w-3.5" />
                         </button>
                       </div>
@@ -162,13 +162,13 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
               </ul>
             </div>
 
-            <footer className="border-t border-dourado/30 bg-creme-soft px-5 py-4">
+            <footer className="border-t border-dourado/25 bg-marrom-deep/40 px-5 py-4">
               <div className="mb-3 flex items-center justify-between text-sm">
                 <span className="text-marrom-soft">{totalPecas} trufa{totalPecas !== 1 ? "s" : ""} selecionada{totalPecas !== 1 ? "s" : ""}</span>
                 <span className="font-display text-xl font-bold text-dourado">{formatBRL(subtotal)}</span>
               </div>
               <button type="button" disabled={totalPecas === 0} onClick={() => setStep("contato")}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-laranja px-6 py-3.5 text-sm font-semibold text-creme shadow transition enabled:hover:bg-laranja-deep disabled:opacity-40">
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-6 py-3.5 text-sm font-semibold text-marrom-deep shadow transition enabled:hover:bg-dourado-soft disabled:opacity-40">
                 Continuar <ChevronRight className="h-4 w-4" />
               </button>
             </footer>
@@ -180,17 +180,17 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
           <form onSubmit={pedirEmail} className="flex flex-1 flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
               {/* Resumo do pedido */}
-              <div className="rounded-xl border border-dourado/30 bg-creme px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-marrom-soft mb-2">Resumo</p>
+              <div className="rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wider text-dourado mb-2">Resumo</p>
                 <ul className="space-y-1">
                   {itensSelecionados.map((i) => (
-                    <li key={i.trufa.id} className="flex justify-between text-sm text-marrom">
+                    <li key={i.trufa.id} className="flex justify-between text-sm text-creme">
                       <span>{i.trufa.nome}</span>
                       <span className="font-semibold">×{i.qty}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-2 flex justify-between border-t border-dourado/20 pt-2 text-sm font-bold text-marrom">
+                <div className="mt-2 flex justify-between border-t border-dourado/20 pt-2 text-sm font-bold text-creme">
                   <span>Total estimado</span>
                   <span className="text-dourado">{formatBRL(subtotal)}</span>
                 </div>
@@ -205,7 +205,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                   <input id="nome" required value={form.nome}
                     onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
                     placeholder="Como posso te chamar?"
-                    className="w-full rounded-xl border border-dourado/30 bg-creme px-4 py-2.5 text-sm text-marrom outline-none focus:border-dourado" />
+                    className="w-full rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado" />
                 </div>
                 <div>
                   <label className="mb-1 block text-xs font-semibold text-marrom-soft" htmlFor="telefone">
@@ -214,7 +214,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                   <input id="telefone" type="tel" value={form.telefone}
                     onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))}
                     placeholder="(17) 9 ____-____"
-                    className="w-full rounded-xl border border-dourado/30 bg-creme px-4 py-2.5 text-sm text-marrom outline-none focus:border-dourado" />
+                    className="w-full rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado" />
                 </div>
                 <div>
                   <label className="mb-1 block text-xs font-semibold text-marrom-soft" htmlFor="obs">
@@ -223,7 +223,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                   <textarea id="obs" rows={2} value={form.observacao}
                     onChange={(e) => setForm((f) => ({ ...f, observacao: e.target.value }))}
                     placeholder="Alguma preferência, endereço de entrega, etc."
-                    className="w-full resize-none rounded-xl border border-dourado/30 bg-creme px-4 py-2.5 text-sm text-marrom outline-none focus:border-dourado" />
+                    className="w-full resize-none rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado" />
                 </div>
               </div>
 
@@ -233,7 +233,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                   {(["whatsapp", "email"] as const).map((v) => (
                     <button key={v} type="button" onClick={() => setVia(v)}
                       className={["flex-1 rounded-xl border py-2.5 text-sm font-semibold transition",
-                        via === v ? "border-dourado bg-dourado/10 text-marrom" : "border-dourado/25 text-marrom-soft"].join(" ")}>
+                        via === v ? "border-dourado bg-dourado/15 text-creme" : "border-dourado/20 text-marrom-soft"].join(" ")}>
                       {v === "whatsapp" ? "📱 WhatsApp" : "📧 E-mail"}
                     </button>
                   ))}
@@ -241,7 +241,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
               )}
             </div>
 
-            <footer className="border-t border-dourado/30 bg-creme-soft px-5 py-4 space-y-2">
+            <footer className="border-t border-dourado/25 bg-marrom-deep/40 px-5 py-4 space-y-2">
               {via === "whatsapp" || !hasFormspree ? (
                 <button type="button" onClick={pedirWhatsapp}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white shadow transition hover:opacity-90">
@@ -250,13 +250,13 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                 </button>
               ) : (
                 <button type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-laranja px-6 py-3.5 text-sm font-semibold text-creme shadow transition hover:bg-laranja-deep">
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-6 py-3.5 text-sm font-semibold text-marrom-deep shadow transition hover:bg-dourado-soft">
                   <Send className="h-4 w-4" />
                   Enviar pedido por e-mail
                 </button>
               )}
               <button type="button" onClick={() => setStep("sabores")}
-                className="flex w-full items-center justify-center gap-1 text-xs text-marrom-soft hover:text-marrom">
+                className="flex w-full items-center justify-center gap-1 text-xs text-marrom-soft hover:text-creme">
                 <ChevronLeft className="h-3.5 w-3.5" /> Voltar aos sabores
               </button>
             </footer>
@@ -266,7 +266,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
         {/* ── ENVIANDO ── */}
         {step === "enviando" && (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-dourado/30 border-t-dourado" />
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-dourado/25 border-t-dourado" />
             <p className="text-marrom-soft text-sm">Enviando seu pedido…</p>
           </div>
         )}
@@ -275,12 +275,12 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
         {step === "sucesso" && (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
             <span className="text-5xl">🍫</span>
-            <p className="font-display text-xl text-marrom">Pedido recebido!</p>
+            <p className="font-display text-xl text-creme">Pedido recebido!</p>
             <p className="text-sm text-marrom-soft">
               Em breve entraremos em contato pelo WhatsApp para confirmar e combinar a entrega.
             </p>
             <button type="button" onClick={onClose}
-              className="mt-2 rounded-full bg-marrom px-6 py-3 text-sm font-semibold text-creme">
+              className="mt-2 rounded-full bg-dourado px-6 py-3 text-sm font-semibold text-marrom-deep">
               Fechar
             </button>
           </div>
@@ -290,7 +290,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
         {step === "erro" && (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
             <span className="text-4xl">⚠️</span>
-            <p className="font-display text-xl text-marrom">Não conseguimos enviar</p>
+            <p className="font-display text-xl text-creme">Não conseguimos enviar</p>
             <p className="text-sm text-marrom-soft">
               Tente pelo WhatsApp ou tente novamente em instantes.
             </p>
@@ -300,7 +300,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                 WhatsApp
               </button>
               <button type="button" onClick={() => setStep("contato")}
-                className="rounded-full border border-dourado/40 px-5 py-2.5 text-sm font-semibold text-marrom">
+                className="rounded-full border border-dourado/40 px-5 py-2.5 text-sm font-semibold text-creme">
                 Tentar novamente
               </button>
             </div>

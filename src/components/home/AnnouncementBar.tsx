@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 const AVISOS = [
-  "🍫 16 sabores de trufas artesanais — feitas à mão",
-  "🎨 Personalize sua caneca com foto, frase ou arte da loja",
+  "🍫 44 sabores de trufas artesanais — feitas à mão",
+  "✨ Cada trufa conferida uma a uma antes de ir pra caixinha",
   "📍 Retirada grátis em Barretos/SP · entregamos na região",
   "💬 Faça seu pedido pelo WhatsApp, rapidinho",
 ];

@@ -13,7 +13,7 @@ import { FaqSection } from "@/components/home/FaqSection";
 
 export function App() {
   return (
-    <div className="min-h-screen bg-creme text-marrom">
+    <div className="min-h-screen bg-marrom text-creme">
       <LoadingScreen />
       <Header />
       <AnnouncementBar />

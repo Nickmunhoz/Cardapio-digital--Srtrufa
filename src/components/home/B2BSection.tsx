@@ -77,7 +77,7 @@ export function B2BSection() {
                 "rounded-2xl border px-5 py-4 text-center transition",
                 qty >= f.min && (f.max === null || qty <= f.max)
                   ? "border-dourado bg-dourado/15 ring-1 ring-dourado"
-                  : "border-dourado/20 bg-marrom/40",
+                  : "border-dourado/20 bg-marrom-deep/50",
               ].join(" ")}
             >
               <p className="text-xs font-semibold uppercase tracking-wider text-marrom-soft mb-1">
@@ -144,7 +144,7 @@ export function B2BSection() {
                 value={form.empresa}
                 onChange={handleChange}
                 placeholder="Razão social ou nome fantasia"
-                className="w-full rounded-xl border border-dourado/30 bg-marrom/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
+                className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
             </div>
 
@@ -161,10 +161,10 @@ export function B2BSection() {
                 value={form.quantidade}
                 onChange={handleChange}
                 placeholder={`Mínimo ${config.b2bMinimo} unidades`}
-                className="w-full rounded-xl border border-dourado/30 bg-marrom/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
+                className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
               {qty > 0 && qty < config.b2bMinimo && (
-                <p className="mt-1 text-xs text-laranja">
+                <p className="mt-1 text-xs text-red-400">
                   Mínimo de {config.b2bMinimo} unidades para pedidos B2B
                 </p>
               )}
@@ -182,7 +182,7 @@ export function B2BSection() {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="empresa@email.com"
-                className="w-full rounded-xl border border-dourado/30 bg-marrom/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
+                className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
             </div>
 
@@ -198,7 +198,7 @@ export function B2BSection() {
                 value={form.telefone}
                 onChange={handleChange}
                 placeholder="(17) 9 ____-____"
-                className="w-full rounded-xl border border-dourado/30 bg-marrom/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
+                className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
             </div>
           </div>
@@ -214,7 +214,7 @@ export function B2BSection() {
               value={form.observacao}
               onChange={handleChange}
               placeholder="Data do evento, sabores preferidos, embalagem personalizada..."
-              className="w-full resize-none rounded-xl border border-dourado/30 bg-marrom/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
+              className="w-full resize-none rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
             />
           </div>
 

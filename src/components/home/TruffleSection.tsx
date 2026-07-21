@@ -5,7 +5,7 @@ import { TrufflePickerModal } from "@/components/truffle/TrufflePickerModal";
 export function TruffleSection() {
   const [open, setOpen] = useState(false);
   return (
-    <section id="trufas" className="bg-creme-soft py-16 sm:py-24">
+    <section id="trufas" className="bg-marrom-deep py-16 sm:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 lg:grid-cols-2">
         <button
           type="button"
@@ -21,16 +21,16 @@ export function TruffleSection() {
             loading="lazy"
             className="aspect-video w-full object-cover transition duration-700 group-hover:scale-105"
           />
-          <span className="absolute bottom-4 left-4 rounded-full bg-marrom/85 px-3 py-1.5 text-xs font-semibold text-creme">
+          <span className="absolute bottom-4 left-4 rounded-full bg-marrom-deep/90 px-3 py-1.5 text-xs font-semibold text-creme">
             Clique para escolher seus sabores
           </span>
         </button>
 
         <div>
-          <span className="inline-block rounded-full border border-dourado/50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-marrom-soft">
+          <span className="font-script block text-xl text-dourado-soft/90">
             Nosso catálogo
           </span>
-          <h2 className="mt-4 font-display text-3xl text-marrom sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl text-creme sm:text-4xl">
             Nossas trufas artesanais
           </h2>
           <p className="mt-3 text-marrom-soft">
@@ -43,7 +43,7 @@ export function TruffleSection() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="mt-6 rounded-full bg-laranja px-7 py-3.5 text-sm font-semibold text-creme shadow-md shadow-marrom/15 transition hover:scale-[1.02] hover:bg-laranja-deep sm:text-base"
+            className="mt-6 rounded-full bg-dourado px-7 py-3.5 text-sm font-semibold text-marrom-deep shadow-md shadow-marrom-deep/20 transition hover:scale-[1.02] hover:bg-dourado-soft sm:text-base"
           >
             Escolher minhas trufas
           </button>
