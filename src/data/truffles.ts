@@ -6,19 +6,12 @@ export type Truffle = {
   categoria: Categoria;
 };
 
-/** Rótulos exibidos nas tabs do cardápio */
+/** Títulos exibidos como cabeçalho de cada categoria no cardápio */
 export const categoriaLabel: Record<Categoria, string> = {
   classicos:  "Clássicos",
   frutas:     "Frutas",
   brancos:    "Brancos & Cremosos",
   especiais:  "Especiais",
-};
-
-export const categoriaEmoji: Record<Categoria, string> = {
-  classicos:  "🍫",
-  frutas:     "🍋",
-  brancos:    "🤍",
-  especiais:  "⭐",
 };
 
 /**

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const AVISOS = [
   "🍫 44 sabores de trufas artesanais — feitas à mão",
-  "✨ Cada trufa conferida uma a uma antes de ir pra caixinha",
+  "✨ Cada trufa conferida uma a uma antes de chegar até você",
   "📍 Retirada grátis em Barretos/SP · entregamos na região",
   "💬 Faça seu pedido pelo WhatsApp, rapidinho",
 ];

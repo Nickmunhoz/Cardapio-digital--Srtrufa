@@ -60,8 +60,8 @@ export function Footer() {
             </a>
           </div>
           <p className="mt-4 text-xs text-creme/60">
-            ⏰ Caixinhas grandes ou pedidos de última hora: o prazo é combinado
-            certinho no WhatsApp.
+            ⏰ Pedidos grandes ou de última hora: o prazo é combinado certinho no
+            WhatsApp.
           </p>
         </div>
       </div>

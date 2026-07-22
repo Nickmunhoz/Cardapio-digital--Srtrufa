@@ -9,8 +9,8 @@ const STEPS = [
   },
   {
     n: "2",
-    t: "Monte sua caixinha",
-    d: "Defina as quantidades de cada sabor e a forma de pagamento.",
+    t: "Escolha as quantidades",
+    d: "Defina quanto quer de cada sabor e a forma de pagamento.",
   },
   {
     n: "3",
@@ -56,8 +56,8 @@ export function HowItWorks() {
         <div className="mt-10 flex items-start gap-3 rounded-2xl border-2 border-dourado/40 bg-dourado/10 p-5 sm:p-6">
           <Clock className="mt-0.5 h-5 w-5 shrink-0 text-dourado" />
           <p className="text-sm text-creme sm:text-base">
-            <strong>Feito por encomenda:</strong> caixinhas grandes ou pedidos de última
-            hora podem levar um dia a mais para ficar prontos. Combine o prazo certinho
+            <strong>Feito por encomenda:</strong> pedidos grandes ou de última hora
+            podem levar um dia a mais para ficar prontos. Combine o prazo certinho
             com a gente no WhatsApp.
           </p>
         </div>

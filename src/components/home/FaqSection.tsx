@@ -1,11 +1,11 @@
 const FAQ = [
   {
-    q: "Posso misturar sabores na minha caixinha?",
-    a: "Sim! Você escolhe a quantidade de cada sabor no cardápio ou no montador de caixinha — do jeito que quiser.",
+    q: "Posso misturar sabores no meu pedido?",
+    a: "Sim! Você escolhe a quantidade de cada sabor no cardápio — do jeito que quiser.",
   },
   {
     q: "Qual é o prazo para retirar ou receber?",
-    a: "Pedidos do dia a dia costumam ficar prontos rapidinho. Para caixinhas grandes ou datas especiais, combinamos o prazo certinho no WhatsApp.",
+    a: "Pedidos do dia a dia costumam ficar prontos rapidinho. Para pedidos grandes ou datas especiais, combinamos o prazo certinho no WhatsApp.",
   },
   {
     q: "Vocês entregam?",
@@ -17,7 +17,7 @@ const FAQ = [
   },
   {
     q: "As trufas são feitas por vocês?",
-    a: "Sim, são artesanais e feitas à mão, com 44 sabores para você montar a sua caixinha.",
+    a: "Sim, são artesanais e feitas à mão, com 44 sabores para você escolher.",
   },
 ];
 

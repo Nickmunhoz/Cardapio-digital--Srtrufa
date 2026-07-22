@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { ShoppingBag, Instagram, Building2, User } from "lucide-react";
-import {
-  truffles,
-  categoriaLabel,
-  categoriaEmoji,
-  type Categoria,
-} from "@/data/truffles";
+import { ShoppingBag, ChevronRight, Instagram, Building2, User } from "lucide-react";
+import { truffles, categoriaLabel, type Categoria } from "@/data/truffles";
 import { config } from "@/data/config";
-import { buildWhatsappUrl, formatBRL } from "@/lib/whatsapp";
+import { formatBRL } from "@/lib/whatsapp";
 import { OrderModal } from "@/components/ui/OrderModal";
 import { B2BSection } from "@/components/home/B2BSection";
 
@@ -17,10 +12,7 @@ type Modo = "b2c" | "b2b";
 
 export function CardapioSection() {
   const [modo, setModo] = useState<Modo>("b2c");
-  const [tab, setTab] = useState<Categoria>("classicos");
   const [modalOpen, setModalOpen] = useState(false);
-
-  const visiveis = truffles.filter((t) => t.categoria === tab);
 
   return (
     <section id="cardapio" className="bg-marrom py-16 sm:py-24">
@@ -74,37 +66,29 @@ export function CardapioSection() {
         {/* ── VERSÃO B2C ── */}
         {modo === "b2c" && (
           <>
-            {/* Tabs de categoria */}
-            <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
+            {/* Cardápio por categoria, como o impresso */}
+            <div className="space-y-10">
               {CATEGORIAS.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setTab(cat)}
-                  className={[
-                    "flex-none rounded-full px-4 py-2 text-sm font-semibold transition whitespace-nowrap",
-                    tab === cat
-                      ? "bg-dourado text-marrom shadow-md"
-                      : "border border-dourado/30 text-dourado hover:border-dourado/60",
-                  ].join(" ")}
-                >
-                  {categoriaEmoji[cat]} {categoriaLabel[cat]}
-                </button>
+                <div key={cat}>
+                  <h3 className="font-script text-3xl text-dourado-soft sm:text-4xl">
+                    {categoriaLabel[cat]}
+                  </h3>
+                  <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2">
+                    {truffles
+                      .filter((t) => t.categoria === cat)
+                      .map((t) => (
+                        <li
+                          key={t.id}
+                          className="flex items-center gap-2 border-b border-dourado/15 py-2.5 text-creme"
+                        >
+                          <ChevronRight className="h-3.5 w-3.5 flex-none text-dourado" />
+                          <span className="font-medium">{t.nome}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
               ))}
             </div>
-
-            {/* Grid de sabores */}
-            <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-              {visiveis.map((t) => (
-                <li
-                  key={t.id}
-                  className="flex items-center gap-2 rounded-xl border border-dourado/20 bg-marrom/60 px-3 py-3 text-sm font-medium text-creme transition hover:border-dourado/50 hover:bg-dourado/10"
-                >
-                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-dourado" />
-                  {t.nome}
-                </li>
-              ))}
-            </ul>
 
             {/* Preço, como no cardápio impresso */}
             <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-dourado/40 bg-marrom-deep/50 px-6 py-6 sm:flex-row sm:px-8">

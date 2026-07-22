@@ -1,4 +1,5 @@
 import mascote from "@/assets/img/brand/mascote.png";
+import { buildWhatsappUrl, mensagemGeral } from "@/lib/whatsapp";
 
 export function Hero() {
   return (
@@ -11,11 +12,11 @@ export function Hero() {
             Trufas Artesanais · Barretos/SP
           </span>
           <h1 className="mt-2 font-display text-4xl leading-[1.05] text-creme sm:text-5xl lg:text-6xl">
-            Trufas artesanais que viram presente.
+            Trufas artesanais, feitas à mão.
           </h1>
           <p className="mt-5 max-w-lg text-base text-marrom-soft sm:text-lg">
-            Feitas à mão, uma a uma, com o capricho do Sr. Trufa. Escolha seus sabores
-            favoritos, monte sua caixinha e a gente cuida do resto.
+            Com o capricho do Sr. Trufa, uma a uma. Escolha seus sabores favoritos
+            no cardápio e peça pelo WhatsApp.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
@@ -25,10 +26,12 @@ export function Hero() {
               Ver o cardápio
             </a>
             <a
-              href="#trufas"
+              href={buildWhatsappUrl([mensagemGeral])}
+              target="_blank"
+              rel="noreferrer noopener"
               className="rounded-full border border-dourado/40 px-6 py-3 text-sm font-semibold text-dourado-soft transition hover:bg-creme/5 sm:text-base"
             >
-              Montar minha caixinha
+              Pedir no WhatsApp
             </a>
           </div>
           <p className="mt-4 text-xs text-marrom-soft/90">

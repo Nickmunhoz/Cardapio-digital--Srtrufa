@@ -28,10 +28,9 @@ export function NossaHistoriaSection() {
             Cada trufa, um detalhe.
           </h2>
           <p className="mt-4 text-creme/85">
-            O Sr. Trufa nasceu do gosto por detalhes e por presentes que dizem algo.
-            Transformamos trufas artesanais em lembranças que ficam — tudo feito à mão,
-            conferido uma a uma e embalado com capricho, do jeito antigo em que cada
-            detalhe importa.
+            O Sr. Trufa nasceu do gosto por detalhes e por chocolate feito de verdade.
+            Cada trufa é feita à mão, conferida uma a uma e embalada com capricho, do
+            jeito antigo em que cada detalhe importa.
           </p>
           <ul className="mt-6 flex flex-wrap gap-2">
             {BADGES.map((b) => (
