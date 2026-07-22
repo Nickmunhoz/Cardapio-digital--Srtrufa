@@ -12,7 +12,7 @@ export function Hero() {
             Trufas Artesanais · Barretos/SP
           </span>
           <h1 className="mt-2 font-display text-4xl leading-[1.05] text-creme sm:text-5xl lg:text-6xl">
-            Trufas artesanais, feitas à mão.
+            As melhores Trufas artesanais da região
           </h1>
           <p className="mt-5 max-w-lg text-base text-marrom-soft sm:text-lg">
             Com o capricho do Sr. Trufa, uma a uma. Escolha seus sabores favoritos

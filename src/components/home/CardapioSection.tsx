@@ -73,7 +73,7 @@ export function CardapioSection() {
                   <h3 className="font-script text-3xl text-dourado-soft sm:text-4xl">
                     {categoriaLabel[cat]}
                   </h3>
-                  <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2">
+                  <ul className="mt-4 flex max-w-lg flex-col gap-1">
                     {truffles
                       .filter((t) => t.categoria === cat)
                       .map((t) => (

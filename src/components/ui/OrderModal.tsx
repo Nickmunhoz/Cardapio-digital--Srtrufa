@@ -1,5 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import { X, Minus, Plus, Send, MessageCircle, ChevronRight, ChevronLeft } from "lucide-react";
+import {
+  X,
+  Minus,
+  Plus,
+  Send,
+  MessageCircle,
+  Smartphone,
+  Mail,
+  ChevronRight,
+  ChevronLeft,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
 import { truffles, categoriaLabel, type Categoria } from "@/data/truffles";
 import { config } from "@/data/config";
 import { buildWhatsappUrl, formatBRL } from "@/lib/whatsapp";
@@ -111,7 +123,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
               {step === "sabores" && "Escolha seus sabores"}
               {step === "contato" && "Finalizar pedido"}
               {step === "enviando" && "Enviando…"}
-              {step === "sucesso" && "Pedido enviado! 🎉"}
+              {step === "sucesso" && "Pedido enviado!"}
               {step === "erro" && "Erro no envio"}
             </h3>
           </div>
@@ -232,9 +244,10 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                 <div className="flex gap-2">
                   {(["whatsapp", "email"] as const).map((v) => (
                     <button key={v} type="button" onClick={() => setVia(v)}
-                      className={["flex-1 rounded-xl border py-2.5 text-sm font-semibold transition",
+                      className={["flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-semibold transition",
                         via === v ? "border-dourado bg-dourado/15 text-creme" : "border-dourado/20 text-marrom-soft"].join(" ")}>
-                      {v === "whatsapp" ? "📱 WhatsApp" : "📧 E-mail"}
+                      {v === "whatsapp" ? <Smartphone className="h-4 w-4" /> : <Mail className="h-4 w-4" />}
+                      {v === "whatsapp" ? "WhatsApp" : "E-mail"}
                     </button>
                   ))}
                 </div>
@@ -274,7 +287,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
         {/* ── SUCESSO ── */}
         {step === "sucesso" && (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
-            <span className="text-5xl">🍫</span>
+            <CheckCircle2 className="h-12 w-12 text-dourado" />
             <p className="font-display text-xl text-creme">Pedido recebido!</p>
             <p className="text-sm text-marrom-soft">
               Em breve entraremos em contato pelo WhatsApp para confirmar e combinar a entrega.
@@ -289,7 +302,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
         {/* ── ERRO ── */}
         {step === "erro" && (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
-            <span className="text-4xl">⚠️</span>
+            <AlertTriangle className="h-10 w-10 text-dourado" />
             <p className="font-display text-xl text-creme">Não conseguimos enviar</p>
             <p className="text-sm text-marrom-soft">
               Tente pelo WhatsApp ou tente novamente em instantes.
