@@ -26,18 +26,15 @@ export const config = {
    */
   precoTrufa: 7.5,
 
-  /** Preço no cartão de crédito (com acréscimo da maquininha). */
-  precoTrufaCredito: 8.0,
-
   // ── Preços B2B (Empresas) ─────────────────────────────
   /**
    * Tabela de preços para pedidos corporativos.
    * Cada faixa: { min: quantidade mínima, preco: valor unitário }
    */
   b2bFaixas: [
-    { min: 20,  max: 49,  preco: 5.50, label: "20 a 49 unidades" },
-    { min: 50,  max: 99,  preco: 5.00, label: "50 a 99 unidades" },
-    { min: 100, max: null, preco: 4.50, label: "100+ unidades"    },
+    { min: 20,  max: 49,  preco: 6.00, label: "20 a 49 unidades" },
+    { min: 50,  max: 99,  preco: 5.50, label: "50 a 99 unidades" },
+    { min: 100, max: null, preco: 5.00, label: "100+ unidades"    },
   ] as { min: number; max: number | null; preco: number; label: string }[],
 
   /** Quantidade mínima para pedido B2B. */

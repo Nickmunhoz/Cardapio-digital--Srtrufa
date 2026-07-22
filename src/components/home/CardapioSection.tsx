@@ -3,7 +3,7 @@ import { ShoppingBag, ChevronRight, Instagram, Building2, User } from "lucide-re
 import { truffles, categoriaLabel, type Categoria } from "@/data/truffles";
 import { config } from "@/data/config";
 import { formatBRL } from "@/lib/whatsapp";
-import { OrderModal } from "@/components/ui/OrderModal";
+import { useOrderModal } from "@/components/ui/OrderModalProvider";
 import { B2BSection } from "@/components/home/B2BSection";
 
 const CATEGORIAS: Categoria[] = ["classicos", "frutas", "brancos", "especiais"];
@@ -12,7 +12,7 @@ type Modo = "b2c" | "b2b";
 
 export function CardapioSection() {
   const [modo, setModo] = useState<Modo>("b2c");
-  const [modalOpen, setModalOpen] = useState(false);
+  const { openOrderModal } = useOrderModal();
 
   return (
     <section id="cardapio" className="bg-marrom py-16 sm:py-24">
@@ -70,7 +70,7 @@ export function CardapioSection() {
             <div className="space-y-10">
               {CATEGORIAS.map((cat) => (
                 <div key={cat}>
-                  <h3 className="font-script text-3xl text-dourado-soft sm:text-4xl">
+                  <h3 className="font-script text-5xl text-dourado-soft sm:text-6xl">
                     {categoriaLabel[cat]}
                   </h3>
                   <ul className="mt-4 flex max-w-lg flex-col gap-1">
@@ -118,8 +118,7 @@ export function CardapioSection() {
                 ))}
               </div>
               <p className="mt-4 text-center text-xs text-marrom-soft italic">
-                No crédito, cada trufa sai por {formatBRL(config.precoTrufaCredito)} —
-                acréscimo por conta da taxa da maquininha.
+                No crédito, há uma taxa adicional da maquininha.
               </p>
             </div>
 
@@ -127,7 +126,7 @@ export function CardapioSection() {
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <button
                 type="button"
-                onClick={() => setModalOpen(true)}
+                onClick={openOrderModal}
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-8 py-4 text-base font-semibold text-marrom-deep shadow-lg shadow-dourado/20 transition hover:bg-dourado-soft sm:w-auto"
               >
                 <ShoppingBag className="h-5 w-5" />
@@ -161,8 +160,6 @@ export function CardapioSection() {
         {/* ── VERSÃO B2B ── */}
         {modo === "b2b" && <B2BSection />}
       </div>
-
-      {modalOpen && <OrderModal onClose={() => setModalOpen(false)} />}
     </section>
   );
 }

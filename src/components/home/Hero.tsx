@@ -1,7 +1,9 @@
 import mascote from "@/assets/img/brand/mascote.png";
-import { buildWhatsappUrl, mensagemGeral } from "@/lib/whatsapp";
+import { useOrderModal } from "@/components/ui/OrderModalProvider";
 
 export function Hero() {
+  const { openOrderModal } = useOrderModal();
+
   return (
     <section id="topo" className="relative overflow-hidden bg-marrom">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,162,74,0.12),transparent_60%)]" />
@@ -25,18 +27,14 @@ export function Hero() {
             >
               Ver o cardápio
             </a>
-            <a
-              href={buildWhatsappUrl([mensagemGeral])}
-              target="_blank"
-              rel="noreferrer noopener"
+            <button
+              type="button"
+              onClick={openOrderModal}
               className="rounded-full border border-dourado/40 px-6 py-3 text-sm font-semibold text-dourado-soft transition hover:bg-creme/5 sm:text-base"
             >
               Pedir no WhatsApp
-            </a>
+            </button>
           </div>
-          <p className="mt-4 text-xs text-marrom-soft/90">
-            Feito à mão em Barretos/SP · Pedidos pelo WhatsApp
-          </p>
         </div>
 
         {/* Mascote */}

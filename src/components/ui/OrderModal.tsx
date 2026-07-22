@@ -23,8 +23,18 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<Step>("sabores");
   const [tab, setTab] = useState<Categoria>("classicos");
   const [counts, setCounts] = useState<Record<string, number>>({});
-  const [form, setForm] = useState({ nome: "", telefone: "", observacao: "" });
+  const [form, setForm] = useState({
+    nome: "",
+    telefone: "",
+    observacao: "",
+    entrega: "" as "" | "retirada" | "entrega",
+    endereco: "",
+  });
   const [via, setVia] = useState<"whatsapp" | "email">("whatsapp");
+
+  const entregaValida =
+    form.entrega === "retirada" ||
+    (form.entrega === "entrega" && form.endereco.trim().length > 0);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -59,6 +69,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
   }
 
   function pedirWhatsapp() {
+    if (!entregaValida) return;
     const linhas = [
       "Olá, Sr. Trufa! Quero fazer um pedido 🍫",
       "",
@@ -69,6 +80,9 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
       ...itensSelecionados.map((i) => `• ${i.qty}x ${i.trufa.nome}`),
       "",
       `*Total:* ${totalPecas} trufa${totalPecas !== 1 ? "s" : ""} — ${formatBRL(subtotal)}`,
+      "",
+      `*Retirada ou entrega:* ${form.entrega === "entrega" ? "Entrega" : "Retirada"}`,
+      ...(form.entrega === "entrega" ? [`*Endereço:* ${form.endereco}`] : []),
       ...(form.observacao ? ["", `*Obs:* ${form.observacao}`] : []),
     ];
     window.open(buildWhatsappUrl(linhas), "_blank", "noopener,noreferrer");
@@ -77,7 +91,7 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
 
   async function pedirEmail(e: React.FormEvent) {
     e.preventDefault();
-    if (!config.formspreeId) return;
+    if (!config.formspreeId || !entregaValida) return;
     setStep("enviando");
     try {
       const res = await fetch(`https://formspree.io/f/${config.formspreeId}`, {
@@ -87,6 +101,8 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
           nome: form.nome,
           telefone: form.telefone,
           observacao: form.observacao,
+          entrega: form.entrega === "entrega" ? "Entrega" : "Retirada",
+          endereco: form.entrega === "entrega" ? form.endereco : "",
           pedido: itensSelecionados.map((i) => `${i.qty}x ${i.trufa.nome}`).join(", "),
           total: formatBRL(subtotal),
           totalPecas,
@@ -229,6 +245,27 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
                     className="w-full rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado" />
                 </div>
                 <div>
+                  <span className="mb-1 block text-xs font-semibold text-marrom-soft">
+                    Retirada ou entrega? *
+                  </span>
+                  <div className="flex gap-2">
+                    {(["retirada", "entrega"] as const).map((opt) => (
+                      <button key={opt} type="button"
+                        onClick={() => setForm((f) => ({ ...f, entrega: opt }))}
+                        className={["flex-1 rounded-xl border py-2.5 text-sm font-semibold transition",
+                          form.entrega === opt ? "border-dourado bg-dourado/15 text-creme" : "border-dourado/20 text-marrom-soft"].join(" ")}>
+                        {opt === "retirada" ? "Retirada" : "Entrega"}
+                      </button>
+                    ))}
+                  </div>
+                  {form.entrega === "entrega" && (
+                    <input required value={form.endereco}
+                      onChange={(e) => setForm((f) => ({ ...f, endereco: e.target.value }))}
+                      placeholder="Endereço completo de entrega"
+                      className="mt-2 w-full rounded-xl border border-dourado/25 bg-marrom-deep/40 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado" />
+                  )}
+                </div>
+                <div>
                   <label className="mb-1 block text-xs font-semibold text-marrom-soft" htmlFor="obs">
                     Observações (opcional)
                   </label>
@@ -256,14 +293,14 @@ export function OrderModal({ onClose }: { onClose: () => void }) {
 
             <footer className="border-t border-dourado/25 bg-marrom-deep/40 px-5 py-4 space-y-2">
               {via === "whatsapp" || !hasFormspree ? (
-                <button type="button" onClick={pedirWhatsapp}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white shadow transition hover:opacity-90">
+                <button type="button" onClick={pedirWhatsapp} disabled={!entregaValida}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white shadow transition hover:opacity-90 disabled:opacity-40">
                   <MessageCircle className="h-4 w-4" />
                   Enviar pedido no WhatsApp
                 </button>
               ) : (
-                <button type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-6 py-3.5 text-sm font-semibold text-marrom-deep shadow transition hover:bg-dourado-soft">
+                <button type="submit" disabled={!entregaValida}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-dourado px-6 py-3.5 text-sm font-semibold text-marrom-deep shadow transition hover:bg-dourado-soft disabled:opacity-40">
                   <Send className="h-4 w-4" />
                   Enviar pedido por e-mail
                 </button>

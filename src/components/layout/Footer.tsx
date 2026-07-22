@@ -31,11 +31,11 @@ export function Footer() {
         <div>
           <h4 className="font-display text-lg text-dourado-soft">Entrega</h4>
           <p className="mt-2 text-sm text-creme/80">
-            Zona próxima · R$ 5
+            Zona próxima · Grátis
             <br />
-            Zona central · R$ 8
+            Zona central · Grátis
             <br />
-            Zonas afastadas · R$ 12
+            Zonas afastadas · Frete a calcular
           </p>
         </div>
 

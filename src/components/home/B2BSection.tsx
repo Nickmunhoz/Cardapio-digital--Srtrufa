@@ -1,18 +1,21 @@
-import { useState } from "react";
-import { MessageCircle, CheckCircle2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { MessageCircle, CheckCircle2, ListChecks } from "lucide-react";
+import { truffles } from "@/data/truffles";
 import { config } from "@/data/config";
 import { buildWhatsappUrl, formatBRL } from "@/lib/whatsapp";
+import { B2BPickerModal } from "@/components/home/B2BPickerModal";
 
 type FormState = "idle" | "enviando" | "sucesso";
 
 export function B2BSection() {
   const [form, setForm] = useState({
     empresa: "",
-    quantidade: "",
     email: "",
     telefone: "",
     observacao: "",
   });
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [formState, setFormState] = useState<FormState>("idle");
 
   function handleChange(
@@ -21,8 +24,20 @@ export function B2BSection() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
+  const qty = useMemo(
+    () => Object.values(counts).reduce((s, q) => s + q, 0),
+    [counts]
+  );
+
+  const itensSelecionados = useMemo(
+    () =>
+      Object.entries(counts)
+        .filter(([, q]) => q > 0)
+        .map(([id, q]) => ({ trufa: truffles.find((t) => t.id === id)!, qty: q })),
+    [counts]
+  );
+
   function faixaAtual() {
-    const qty = parseInt(form.quantidade, 10);
     if (!qty || qty < config.b2bMinimo) return null;
     return (
       config.b2bFaixas.find(
@@ -34,14 +49,17 @@ export function B2BSection() {
   function enviarWhatsApp(e: React.FormEvent) {
     e.preventDefault();
     const faixa = faixaAtual();
-    const qty = parseInt(form.quantidade, 10);
     const subtotal = faixa ? faixa.preco * qty : null;
 
     const linhas = [
       "Olá, Sr. Trufa! Tenho interesse em um pedido corporativo 🏢🍫",
       "",
       `*Empresa:* ${form.empresa}`,
-      `*Quantidade:* ${form.quantidade} trufas`,
+      "",
+      "*Sabores escolhidos:*",
+      ...itensSelecionados.map((i) => `• ${i.qty}x ${i.trufa.nome}`),
+      "",
+      `*Quantidade total:* ${qty} trufas`,
       faixa
         ? `*Faixa de preço:* ${formatBRL(faixa.preco)} un (${faixa.label})`
         : "",
@@ -59,7 +77,7 @@ export function B2BSection() {
   }
 
   const faixa = faixaAtual();
-  const qty = parseInt(form.quantidade, 10);
+  const podeEnviar = form.empresa.trim().length > 0 && qty >= config.b2bMinimo;
 
   return (
     <div className="space-y-10">
@@ -96,6 +114,33 @@ export function B2BSection() {
         </p>
       </div>
 
+      {/* Sabores e quantidade */}
+      <div>
+        <label className="mb-1 block text-xs font-semibold text-marrom-soft">
+          Sabores e quantidade *
+        </label>
+        <button
+          type="button"
+          onClick={() => setPickerOpen(true)}
+          className="flex w-full items-center justify-between gap-3 rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-3 text-left text-sm text-creme transition hover:border-dourado"
+        >
+          <span className="flex items-center gap-2">
+            <ListChecks className="h-4 w-4 text-dourado" />
+            {qty > 0
+              ? `${qty} trufas selecionadas${faixa ? ` · ${formatBRL(faixa.preco)} un.` : ""}`
+              : `Escolher sabores (mínimo ${config.b2bMinimo} unidades)`}
+          </span>
+          <span className="text-xs font-semibold text-dourado">
+            {qty > 0 ? "Editar" : "Escolher"}
+          </span>
+        </button>
+        {qty > 0 && qty < config.b2bMinimo && (
+          <p className="mt-1 text-xs text-red-400">
+            Mínimo de {config.b2bMinimo} unidades para pedidos B2B
+          </p>
+        )}
+      </div>
+
       {/* Estimativa dinâmica */}
       {faixa && qty >= config.b2bMinimo && (
         <div className="rounded-2xl border border-dourado/40 bg-dourado/10 px-6 py-4 text-center">
@@ -120,7 +165,7 @@ export function B2BSection() {
           </p>
           <button
             type="button"
-            onClick={() => { setFormState("idle"); setForm({ empresa: "", quantidade: "", email: "", telefone: "", observacao: "" }); }}
+            onClick={() => { setFormState("idle"); setForm({ empresa: "", email: "", telefone: "", observacao: "" }); setCounts({}); }}
             className="mt-2 rounded-full border border-dourado/40 px-6 py-2.5 text-sm font-semibold text-dourado hover:bg-dourado/10 transition"
           >
             Novo orçamento
@@ -143,31 +188,9 @@ export function B2BSection() {
                 required
                 value={form.empresa}
                 onChange={handleChange}
-                placeholder="Razão social ou nome fantasia"
+                placeholder="Razão social, nome ou nome da empresa"
                 className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
-            </div>
-
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-marrom-soft" htmlFor="quantidade">
-                Quantidade de trufas *
-              </label>
-              <input
-                id="quantidade"
-                name="quantidade"
-                type="number"
-                required
-                min={config.b2bMinimo}
-                value={form.quantidade}
-                onChange={handleChange}
-                placeholder={`Mínimo ${config.b2bMinimo} unidades`}
-                className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
-              />
-              {qty > 0 && qty < config.b2bMinimo && (
-                <p className="mt-1 text-xs text-red-400">
-                  Mínimo de {config.b2bMinimo} unidades para pedidos B2B
-                </p>
-              )}
             </div>
 
             <div>
@@ -213,14 +236,15 @@ export function B2BSection() {
               rows={3}
               value={form.observacao}
               onChange={handleChange}
-              placeholder="Data do evento, sabores preferidos, embalagem personalizada..."
+              placeholder="Data do evento, embalagem personalizada, etc."
               className="w-full resize-none rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
             />
           </div>
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:opacity-90"
+            disabled={!podeEnviar}
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:opacity-90 disabled:opacity-40"
           >
             <MessageCircle className="h-5 w-5" />
             Solicitar orçamento pelo WhatsApp
@@ -230,6 +254,17 @@ export function B2BSection() {
             Respondemos em até 24h · Sem compromisso
           </p>
         </form>
+      )}
+
+      {pickerOpen && (
+        <B2BPickerModal
+          initialCounts={counts}
+          onClose={() => setPickerOpen(false)}
+          onConfirm={(next) => {
+            setCounts(next);
+            setPickerOpen(false);
+          }}
+        />
       )}
     </div>
   );
