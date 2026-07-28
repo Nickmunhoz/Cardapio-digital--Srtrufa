@@ -67,12 +67,11 @@ function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
 
   return (
     <div
-      className="flex-shrink-0 rounded-3xl overflow-hidden border"
+      className="flex-shrink-0 rounded-3xl overflow-hidden"
       style={{
         width: 340,
-        backgroundColor: "#1c0d05",
-        borderColor: "rgba(201,162,74,0.20)",
-        boxShadow: "0 16px 56px rgba(0,0,0,0.55)",
+        backgroundColor: "#f5ead9",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -80,12 +79,12 @@ function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
       {/* ── Área da imagem (topo do card) ── */}
       <div
         className="relative flex items-center justify-center"
-        style={{ height: 300, backgroundColor: "#150a03", cursor: "pointer" }}
+        style={{ height: 310, backgroundColor: "#ede0cc", cursor: "pointer" }}
       >
         {/* Número */}
         <span
-          className="absolute top-4 right-4 font-display text-xs tracking-widest opacity-35"
-          style={{ color: sabor.accent }}
+          className="absolute top-4 right-4 font-display text-xs tracking-widest opacity-40"
+          style={{ color: "#2b1408" }}
         >
           0{index + 1}
         </span>
@@ -94,50 +93,50 @@ function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
         <img
           src={trufaFechada}
           alt={sabor.nome}
-          className={`absolute object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-all duration-500 ${
+          className={`absolute object-contain drop-shadow-[0_12px_28px_rgba(43,20,8,0.28)] transition-all duration-500 ${
             hovered ? "opacity-0 scale-90" : "opacity-100 scale-100"
           }`}
-          style={{ width: 210, height: 210 }}
+          style={{ width: 265, height: 265 }}
         />
 
         {/* Recheio (hover) */}
         <img
           src={sabor.recheio}
           alt={`Recheio ${sabor.nome}`}
-          className={`absolute object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-all duration-500 ${
+          className={`absolute object-contain drop-shadow-[0_12px_28px_rgba(43,20,8,0.28)] transition-all duration-500 ${
             hovered ? "opacity-100 scale-100" : "opacity-0 scale-110"
           }`}
-          style={{ width: 210, height: 210 }}
+          style={{ width: 265, height: 265 }}
         />
 
         {/* Hint hover */}
         <span
           className={`absolute bottom-3 text-[10px] font-semibold tracking-wider uppercase transition-opacity duration-300 ${
-            hovered ? "opacity-0" : "opacity-50"
+            hovered ? "opacity-0" : "opacity-45"
           }`}
-          style={{ color: sabor.accent }}
+          style={{ color: "#2b1408" }}
         >
           hover · ver recheio
         </span>
       </div>
 
-      {/* ── Rodapé do card (abaixo da imagem, nunca sobreposto) ── */}
+      {/* ── Rodapé do card — texto escuro sobre fundo creme ── */}
       <div
         className="px-5 py-4"
-        style={{ borderTop: `1px solid rgba(201,162,74,0.12)` }}
+        style={{ borderTop: "1px solid rgba(43,20,8,0.10)" }}
       >
         {/* Tag de acento */}
         <div
-          className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-marrom-deep"
-          style={{ backgroundColor: sabor.accent }}
+          className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest"
+          style={{ backgroundColor: sabor.accent, color: "#fff" }}
         >
           sabor especial
         </div>
 
-        <h3 className="font-display text-lg leading-tight text-creme">
+        <h3 className="font-display text-lg leading-tight" style={{ color: "#2b1408" }}>
           {sabor.nome}
         </h3>
-        <p className="mt-0.5 text-xs leading-relaxed text-marrom-soft line-clamp-2">
+        <p className="mt-0.5 text-xs leading-relaxed line-clamp-2" style={{ color: "rgba(43,20,8,0.60)" }}>
           {sabor.tagline}
         </p>
 
@@ -145,7 +144,7 @@ function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
           href={waMsg}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-marrom-deep transition hover:opacity-90"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-white transition hover:opacity-90"
           style={{ backgroundColor: sabor.accent }}
         >
           <MessageCircle className="h-3 w-3" />

@@ -1,6 +1,5 @@
 import { useRef, useLayoutEffect } from "react";
-import heroVideo  from "@/assets/video/hero.mp4";
-import mascote   from "@/assets/img/brand/mascote-hero.png";
+import heroVideo from "@/assets/video/hero.mp4";
 import { config } from "@/data/config";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import gsap from "gsap";
@@ -12,10 +11,9 @@ const LINE1 = "Trufas que";
 const LINE2 = "viram presente.";
 
 export function Hero() {
-  const sectionRef    = useRef<HTMLElement>(null);
-  const videoWrapRef  = useRef<HTMLDivElement>(null);
-  const mascoteRef    = useRef<HTMLDivElement>(null);
-  const heroTextRef   = useRef<HTMLDivElement>(null); // scope para querySelectorAll
+  const sectionRef   = useRef<HTMLElement>(null);
+  const videoWrapRef = useRef<HTMLDivElement>(null);
+  const heroTextRef  = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -25,10 +23,7 @@ export function Hero() {
       mm.add("(min-width: 768px)", () => {
         const scope = heroTextRef.current!;
 
-        // Esconde os chars de preenchimento antes de qualquer scroll
         gsap.set(scope.querySelectorAll(".char-l1, .char-l2"), { opacity: 0 });
-        // Mascote inicia invisível
-        gsap.set(mascoteRef.current, { opacity: 0, y: 56, scale: 0.82 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -48,16 +43,7 @@ export function Hero() {
           duration: 1,
         }, 0);
 
-        /* 2. Mascote surge abaixo do vídeo encolhido */
-        tl.to(mascoteRef.current, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          ease: "none",
-          duration: 0.55,
-        }, 0.28);
-
-        /* 3. Linha 1 — letra por letra */
+        /* 2. Linha 1 — letra por letra */
         tl.to(scope.querySelectorAll(".char-l1"), {
           opacity: 1,
           stagger: { each: 0.038, from: "start" },
@@ -65,7 +51,7 @@ export function Hero() {
           ease: "none",
         }, 0);
 
-        /* 4. Linha 2 — começa após linha 1 completar (~0.42 timeline units) */
+        /* 3. Linha 2 — começa após linha 1 completar */
         tl.to(scope.querySelectorAll(".char-l2"), {
           opacity: 1,
           stagger: { each: 0.038, from: "start" },
@@ -74,10 +60,9 @@ export function Hero() {
         }, 0.48);
       });
 
-      /* ── Mobile: texto sempre sólido, mascote sempre visível ── */
+      /* ── Mobile: texto sempre sólido ── */
       mm.add("(max-width: 767px)", () => {
         gsap.set(heroTextRef.current!.querySelectorAll(".char-l1, .char-l2"), { opacity: 1 });
-        gsap.set(mascoteRef.current, { opacity: 0 }); // mascote não aparece no mobile nesta seção
       });
     }, sectionRef);
 
@@ -88,9 +73,9 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="topo"
-      className="relative bg-marrom-deep h-screen md:h-[150vh]"
+      className="relative bg-marrom-deep h-screen md:h-[300vh]"
     >
-      {/* ── Container sticky ── */}
+      {/* Container sticky */}
       <div className="sticky top-0 h-screen overflow-hidden">
 
         {/* Wrapper do vídeo */}
@@ -111,22 +96,7 @@ export function Hero() {
           <div className="absolute inset-0 bg-gradient-to-t from-marrom-deep/80 via-transparent to-transparent" />
         </div>
 
-        {/* ── Mascote: aparece na direita conforme o vídeo encolhe (desktop) ── */}
-        <div
-          ref={mascoteRef}
-          className="absolute hidden md:block"
-          style={{ right: "4%", bottom: "6%", willChange: "transform, opacity" }}
-        >
-          <img
-            src={mascote}
-            alt="Mascote Sr. Trufa"
-            className="w-64 lg:w-80 xl:w-[22rem] drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)]"
-            width={1080}
-            height={1080}
-          />
-        </div>
-
-        {/* ── Conteúdo de texto ── */}
+        {/* Conteúdo de texto */}
         <div className="relative z-10 flex h-full items-center">
           <div className="px-4 sm:px-8 lg:px-16 max-w-2xl">
 
@@ -135,7 +105,7 @@ export function Hero() {
               com modos de cavalheiro
             </span>
 
-            {/* ── Título com dupla camada (outline + preenchimento por letra) ── */}
+            {/* Título com dupla camada — outline + preenchimento letra a letra */}
             <div ref={heroTextRef} className="relative mt-5 select-none">
 
               {/* Outline — sempre visível */}
@@ -143,7 +113,6 @@ export function Hero() {
                 aria-label={`${LINE1} ${LINE2}`}
                 className="font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl"
               >
-                {/* Linha 1 */}
                 <div>
                   {LINE1.split("").map((ch, i) => (
                     <span
@@ -155,11 +124,10 @@ export function Hero() {
                         letterSpacing: ch === " " ? "0.2em" : undefined,
                       }}
                     >
-                      {ch === " " ? " " : ch}
+                      {ch}
                     </span>
                   ))}
                 </div>
-                {/* Linha 2 */}
                 <div>
                   {LINE2.split("").map((ch, i) => (
                     <span
@@ -171,18 +139,17 @@ export function Hero() {
                         letterSpacing: ch === " " ? "0.2em" : undefined,
                       }}
                     >
-                      {ch === " " ? " " : ch}
+                      {ch}
                     </span>
                   ))}
                 </div>
               </h1>
 
-              {/* Preenchimento sólido por letra (anima com scroll no desktop) */}
+              {/* Preenchimento sólido por letra */}
               <div
                 aria-hidden
                 className="absolute inset-0 font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl pointer-events-none"
               >
-                {/* Linha 1 */}
                 <div>
                   {LINE1.split("").map((ch, i) => (
                     <span
@@ -190,11 +157,10 @@ export function Hero() {
                       className="char-l1 inline-block text-creme"
                       style={{ letterSpacing: ch === " " ? "0.2em" : undefined }}
                     >
-                      {ch === " " ? " " : ch}
+                      {ch}
                     </span>
                   ))}
                 </div>
-                {/* Linha 2 */}
                 <div>
                   {LINE2.split("").map((ch, i) => (
                     <span
@@ -202,20 +168,17 @@ export function Hero() {
                       className="char-l2 inline-block text-dourado"
                       style={{ letterSpacing: ch === " " ? "0.2em" : undefined }}
                     >
-                      {ch === " " ? " " : ch}
+                      {ch}
                     </span>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Subtítulo */}
             <p className="mt-5 max-w-md text-sm leading-relaxed text-marrom-soft sm:text-base">
-              20 sabores feitos à mão em Barretos/SP.
-              Monte sua caixinha e a gente cuida do resto.
+              20 sabores em Barretos/SP. Monte sua caixinha e a gente cuida do resto.
             </p>
 
-            {/* CTAs */}
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
               <a
                 href="#cardapio"

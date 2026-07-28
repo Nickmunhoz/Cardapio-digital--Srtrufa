@@ -52,7 +52,7 @@ export function B2BSection() {
     const subtotal = faixa ? faixa.preco * qty : null;
 
     const linhas = [
-      "Olá, Sr. Trufa! Tenho interesse em um pedido corporativo 🏢🍫",
+      "Olá, Sr. Trufa! Tenho interesse em um pedido em quantidade.",
       "",
       `*Empresa:* ${form.empresa}`,
       "",
@@ -85,7 +85,7 @@ export function B2BSection() {
       {/* Tabela de preços */}
       <div>
         <h3 className="mb-4 text-center font-display text-xl text-creme">
-          Tabela de preços corporativos
+          Tabela de preços por quantidade
         </h3>
         <div className="grid gap-3 sm:grid-cols-3">
           {config.b2bFaixas.map((f) => (
@@ -109,8 +109,7 @@ export function B2BSection() {
           ))}
         </div>
         <p className="mt-3 text-center text-xs text-marrom-soft">
-          Pedido mínimo: {config.b2bMinimo} unidades ·
-          Sabores à escolha · Embalagem inclusa
+          Mínimo {config.b2bMinimo} unidades · Sabores à escolha · Embalagem inclusa · Para eventos e revendedores
         </p>
       </div>
 
@@ -174,13 +173,13 @@ export function B2BSection() {
       ) : (
         <form onSubmit={enviarWhatsApp} className="space-y-4">
           <h3 className="font-display text-xl text-creme text-center">
-            Solicitar orçamento
+            Solicitar orçamento para eventos ou revenda
           </h3>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-xs font-semibold text-marrom-soft" htmlFor="empresa">
-                Nome da empresa *
+                Nome / Empresa *
               </label>
               <input
                 id="empresa"
@@ -188,7 +187,7 @@ export function B2BSection() {
                 required
                 value={form.empresa}
                 onChange={handleChange}
-                placeholder="Razão social, nome ou nome da empresa"
+                placeholder="Seu nome, loja ou empresa"
                 className="w-full rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
               />
             </div>
@@ -236,7 +235,7 @@ export function B2BSection() {
               rows={3}
               value={form.observacao}
               onChange={handleChange}
-              placeholder="Data do evento, embalagem personalizada, etc."
+              placeholder="Data do evento, tipo de embalagem, ponto de venda, etc."
               className="w-full resize-none rounded-xl border border-dourado/30 bg-marrom-deep/50 px-4 py-2.5 text-sm text-creme placeholder:text-marrom-soft outline-none focus:border-dourado"
             />
           </div>
