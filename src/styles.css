@@ -162,7 +162,7 @@
   animation: walk 7s ease-in-out infinite;
 }
 
-/* Marquee horizontal infinito */
+/* Marquee horizontal infinito (texto plano) */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -173,6 +173,12 @@
   width: max-content;
 }
 
+/* Marquee curvado: container 200% wide desloca -50% (= -1 viewport) */
+@keyframes waveMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-pulse-scarcity,
@@ -180,5 +186,8 @@
   .animate-spin-mascote,
   .animate-marquee {
     animation: none;
+  }
+  [style*="waveMarquee"] {
+    animation: none !important;
   }
 }

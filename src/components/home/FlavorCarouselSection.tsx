@@ -1,37 +1,23 @@
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, MessageCircle, Hand } from "lucide-react";
-import trufaFechada  from "@/assets/img/sabores/trufa-fechada.png";
-import kinderRecheio from "@/assets/img/sabores/kinder-bueno.png";
+import { useRef, useLayoutEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MessageCircle } from "lucide-react";
+import trufaFechada    from "@/assets/img/sabores/trufa-fechada.png";
+import kinderRecheio   from "@/assets/img/sabores/kinder-bueno.png";
 import nutninhoRecheio from "@/assets/img/sabores/nutninho.png";
 import maracujaRecheio from "@/assets/img/sabores/maracuja-nutella.png";
-import oreoRecheio   from "@/assets/img/sabores/oreo-chocolate.png";
-import ovoRecheio    from "@/assets/img/sabores/ovomaltine.png";
-// Ingredientes
-import avelas           from "@/assets/img/ingredientes/avelas.png";
-import ninho            from "@/assets/img/ingredientes/ninho.png";
-import chocolateNinho   from "@/assets/img/ingredientes/chocolate-ninho.png";
-import maracuja         from "@/assets/img/ingredientes/maracuja.png";
-import chocolateMaracuja from "@/assets/img/ingredientes/chocolate-maracuja.png";
-import oreo             from "@/assets/img/ingredientes/oreo.png";
-import ovomaltine       from "@/assets/img/ingredientes/ovomaltine.png";
+import oreoRecheio     from "@/assets/img/sabores/oreo-chocolate.png";
+import ovoRecheio      from "@/assets/img/sabores/ovomaltine.png";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
-// blend: "multiply" = fundo branco desaparece em bg escuro via screen
-//        "screen"   = fundo preto desaparece em bg escuro
-type Ingrediente = {
-  src: string;
-  blend: "multiply" | "screen";
-  style: React.CSSProperties;
-};
+gsap.registerPlugin(ScrollTrigger);
 
 type Sabor = {
   id: string;
   nome: string;
   tagline: string;
-  bg: string;
   accent: string;
   recheio: string;
-  ingredientes: Ingrediente[];
 };
 
 const SABORES: Sabor[] = [
@@ -39,248 +25,293 @@ const SABORES: Sabor[] = [
     id: "kinder-bueno",
     nome: "Kinder Bueno",
     tagline: "Creme de avelã com chocolate ao leite",
-    bg: "#28140A",
     accent: "#C08A3C",
     recheio: kinderRecheio,
-    ingredientes: [
-      { src: avelas, blend: "multiply", style: { top: "4%",  right: "-2%", width: "38%", opacity: 0.28, transform: "rotate(10deg)" } },
-      { src: avelas, blend: "multiply", style: { bottom: "6%", left: "-3%",  width: "30%", opacity: 0.18, transform: "rotate(-8deg) scaleX(-1)" } },
-    ],
   },
   {
     id: "nutninho",
     nome: "Nutninho",
     tagline: "Leite Ninho com creme de avelã",
-    bg: "#1E0E06",
     accent: "#D4A84E",
     recheio: nutninhoRecheio,
-    ingredientes: [
-      { src: ninho,          blend: "multiply", style: { top: "3%",   right: "0%",  width: "36%", opacity: 0.30, transform: "rotate(6deg)" } },
-      { src: chocolateNinho, blend: "screen",   style: { bottom: "4%", left: "-2%", width: "42%", opacity: 0.22, transform: "rotate(-5deg)" } },
-    ],
   },
   {
     id: "maracuja-nutella",
     nome: "Maracujá com Nutella",
     tagline: "Acidez do maracujá com creme de avelã",
-    bg: "#221205",
     accent: "#D4961E",
     recheio: maracujaRecheio,
-    ingredientes: [
-      { src: maracuja,         blend: "multiply", style: { top: "2%",   right: "-1%", width: "44%", opacity: 0.32, transform: "rotate(4deg)" } },
-      { src: chocolateMaracuja, blend: "screen",  style: { bottom: "3%", left: "-3%", width: "40%", opacity: 0.20, transform: "rotate(-7deg)" } },
-    ],
   },
   {
     id: "oreo-chocolate",
     nome: "Oreo Chocolate",
     tagline: "Creme de biscoito Oreo no recheio",
-    bg: "#0C080C",
     accent: "#9E8AB0",
     recheio: oreoRecheio,
-    ingredientes: [
-      { src: oreo, blend: "screen", style: { top: "-2%",  right: "-4%", width: "52%", opacity: 0.35, transform: "rotate(5deg)" } },
-      { src: oreo, blend: "screen", style: { bottom: "-2%", left: "-4%",  width: "40%", opacity: 0.22, transform: "rotate(-10deg) scaleX(-1)" } },
-    ],
   },
   {
     id: "ovomaltine",
     nome: "Ovomaltine",
     tagline: "Crocante de Ovomaltine no recheio",
-    bg: "#1E0C04",
     accent: "#C07828",
     recheio: ovoRecheio,
-    ingredientes: [
-      { src: ovomaltine, blend: "screen", style: { top: "-5%", right: "-6%", width: "56%", opacity: 0.30, transform: "rotate(3deg)" } },
-      { src: ovomaltine, blend: "screen", style: { bottom: "-5%", left: "-5%", width: "40%", opacity: 0.18, transform: "rotate(-12deg) scaleX(-1)" } },
-    ],
   },
 ];
 
-export function FlavorCarouselSection() {
-  const [active, setActive] = useState(0);
-  const [revealed, setRevealed] = useState(false);
-
-  const sabor = SABORES[active];
-
-  function prev() { setActive((i) => (i - 1 + SABORES.length) % SABORES.length); setRevealed(false); }
-  function next() { setActive((i) => (i + 1) % SABORES.length); setRevealed(false); }
-  function goTo(i: number) { setActive(i); setRevealed(false); }
-  function toggleReveal() { setRevealed((v) => !v); }
-
+/* ── Card desktop: fundo creme, hover revela nome em quadrado ── */
+function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
+  const [hovered, setHovered] = useState(false);
   const waMsg = buildWhatsappUrl([`Olá, Sr. Trufa! Quero pedir trufas de ${sabor.nome}.`]);
 
   return (
-    <section className="overflow-hidden bg-marrom py-12 sm:py-20">
-      <div className="mx-auto max-w-5xl px-4">
+    <div
+      className="relative flex-shrink-0 w-screen h-screen flex flex-col items-center justify-center"
+      style={{ backgroundColor: "#f5ead9" }}
+    >
+      {/* Número do card */}
+      <span
+        className="absolute top-8 right-10 font-display text-sm tracking-widest opacity-30"
+        style={{ color: "#2b1408" }}
+      >
+        0{index + 1} / 0{SABORES.length}
+      </span>
 
-        {/* Cabeçalho */}
-        <div className="mb-8 text-center sm:mb-10">
-          <p className="font-script text-xl text-dourado-soft sm:text-2xl">
-            sabores fotografados
-          </p>
-          <h2 className="mt-1 font-display text-3xl text-creme sm:text-4xl lg:text-5xl">
-            5 sabores, 5 recheios reais
-          </h2>
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-xs text-marrom-soft sm:text-sm">
-            <Hand className="h-3.5 w-3.5" />
-            Toque na trufa para ver o recheio
-          </p>
-        </div>
+      {/* Área interativa: trufa + hover overlay */}
+      <div
+        className="relative flex items-center justify-center cursor-pointer"
+        style={{ width: 360, height: 360 }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => setHovered((v) => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={`Ver detalhes de ${sabor.nome}`}
+        onKeyDown={(e) => e.key === "Enter" && setHovered((v) => !v)}
+      >
+        {/* Trufa fechada */}
+        <img
+          src={trufaFechada}
+          alt={sabor.nome}
+          className={`absolute w-56 h-56 object-contain transition-all duration-500 drop-shadow-[0_16px_40px_rgba(43,20,8,0.22)] ${
+            hovered ? "opacity-0 scale-95" : "opacity-100 scale-100"
+          }`}
+        />
 
-        {/* Card principal */}
+        {/* Recheio */}
+        <img
+          src={sabor.recheio}
+          alt={`Recheio de ${sabor.nome}`}
+          className={`absolute w-56 h-56 object-contain transition-all duration-500 drop-shadow-[0_16px_40px_rgba(43,20,8,0.22)] ${
+            hovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          }`}
+        />
+
+        {/* Overlay com nome em quadrado (aparece ao hover) */}
         <div
-          key={sabor.id}
-          className="relative overflow-hidden rounded-2xl shadow-2xl sm:rounded-3xl"
-          style={{ backgroundColor: sabor.bg }}
+          className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-400 ${
+            hovered ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ backgroundColor: "rgba(28,13,5,0.88)" }}
         >
-          {/* Ingredientes de fundo */}
-          {sabor.ingredientes.map((ing, idx) => (
-            <img
-              key={idx}
-              src={ing.src}
-              aria-hidden
-              className="pointer-events-none absolute select-none"
-              style={{
-                ...ing.style,
-                mixBlendMode: ing.blend,
-              }}
+          <div
+            className="border px-8 py-7 text-center"
+            style={{ borderColor: "rgba(201,162,74,0.35)" }}
+          >
+            <p
+              className="font-script text-base"
+              style={{ color: "rgba(227,205,161,0.85)" }}
+            >
+              sabor
+            </p>
+            <h3 className="mt-1 font-display text-2xl sm:text-3xl text-creme">
+              {sabor.nome}
+            </h3>
+            <div
+              className="mx-auto my-3 h-px w-10"
+              style={{ backgroundColor: sabor.accent }}
             />
-          ))}
-
-          {/* Layout: vertical em mobile, horizontal em desktop */}
-          <div className="relative z-10 flex flex-col sm:grid sm:grid-cols-2">
-
-            {/* Área da foto */}
-            <button
-              type="button"
-              aria-label={revealed ? "Ver trufa fechada" : "Ver recheio"}
-              onClick={toggleReveal}
-              onMouseEnter={() => setRevealed(true)}
-              onMouseLeave={() => setRevealed(false)}
-              className="relative flex min-h-[220px] cursor-pointer items-center justify-center bg-[#F5EAD9] p-8 sm:min-h-[360px] sm:p-10"
+            <p
+              className="text-xs leading-relaxed"
+              style={{ color: "rgba(201,178,158,0.75)" }}
             >
-              {/* Trufa fechada */}
-              <img
-                src={trufaFechada}
-                alt="Trufa"
-                className={[
-                  "absolute w-36 object-contain transition-opacity duration-500 sm:w-52",
-                  revealed ? "opacity-0" : "opacity-100",
-                ].join(" ")}
-              />
-              {/* Recheio */}
-              <img
-                src={sabor.recheio}
-                alt={`Recheio ${sabor.nome}`}
-                className={[
-                  "absolute w-36 object-contain transition-opacity duration-500 sm:w-52",
-                  revealed ? "opacity-100" : "opacity-0",
-                ].join(" ")}
-              />
-
-              {/* Badge de hint */}
-              <span
-                className={[
-                  "absolute bottom-3 rounded-full px-3 py-1 text-[10px] font-semibold text-white transition-opacity duration-300 sm:text-xs",
-                  revealed ? "opacity-0" : "opacity-90",
-                ].join(" ")}
-                style={{ backgroundColor: sabor.accent }}
-              >
-                {revealed ? "" : "toque para ver o recheio"}
-              </span>
-            </button>
-
-            {/* Texto */}
-            <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
-              <span
-                className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-marrom-deep sm:text-[11px]"
-                style={{ backgroundColor: sabor.accent }}
-              >
-                {active + 1} de {SABORES.length}
-              </span>
-
-              <h3 className="font-display text-2xl text-creme sm:text-3xl lg:text-4xl">
-                {sabor.nome}
-              </h3>
-
-              <p className="mt-2 text-sm leading-relaxed text-creme/55 sm:text-base">
-                {sabor.tagline}
-              </p>
-
-              <div className="my-5 brand-divider max-w-[80px]">
-                <span className="brand-divider__diamond" style={{ background: sabor.accent }} />
-              </div>
-
-              <a
-                href={waMsg}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-marrom-deep transition hover:opacity-90 sm:px-6 sm:py-3"
-                style={{ backgroundColor: sabor.accent }}
-              >
-                <MessageCircle className="h-4 w-4" />
-                Quero esse sabor
-              </a>
-            </div>
+              {sabor.tagline}
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Navegação */}
-        <div className="mt-6 flex items-center justify-center gap-4 sm:mt-8 sm:gap-6">
-          <button
-            type="button"
-            onClick={prev}
-            aria-label="Sabor anterior"
-            className="rounded-full border border-dourado/25 p-2 text-dourado/50 transition hover:border-dourado hover:text-dourado"
+      {/* Rodapé do card */}
+      <div
+        className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10 py-5"
+        style={{ borderTop: "1px solid rgba(43,20,8,0.10)" }}
+      >
+        <div>
+          <p
+            className="font-display text-lg font-semibold"
+            style={{ color: "#2b1408" }}
           >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-
-          {/* Dots */}
-          <div className="flex items-center gap-2">
-            {SABORES.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => goTo(i)}
-                aria-label={s.nome}
-                className="rounded-full transition-all duration-300"
-                style={{
-                  width:  i === active ? 22 : 7,
-                  height: 7,
-                  backgroundColor: i === active ? "#C9A24A" : "rgba(201,162,74,0.25)",
-                }}
-              />
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Próximo sabor"
-            className="rounded-full border border-dourado/25 p-2 text-dourado/50 transition hover:border-dourado hover:text-dourado"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+            {sabor.nome}
+          </p>
+          <p className="text-xs" style={{ color: "rgba(43,20,8,0.50)" }}>
+            {sabor.tagline}
+          </p>
         </div>
+        <a
+          href={waMsg}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+          style={{ backgroundColor: sabor.accent }}
+        >
+          <MessageCircle className="h-4 w-4" />
+          Pedir este
+        </a>
+      </div>
+    </div>
+  );
+}
 
-        {/* Labels clicáveis dos sabores */}
-        <div className="mt-4 flex flex-wrap justify-center gap-1.5 sm:gap-2">
-          {SABORES.map((s, i) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => goTo(i)}
-              className={[
-                "rounded-full px-3 py-1 text-xs font-semibold transition sm:text-sm",
-                i === active
-                  ? "border border-dourado/50 bg-dourado/15 text-dourado"
-                  : "text-marrom-soft hover:text-creme",
-              ].join(" ")}
-            >
-              {s.nome}
-            </button>
+/* ── Card mobile: clique revela recheio ── */
+function MobileCard({ sabor }: { sabor: Sabor }) {
+  const [revealed, setRevealed] = useState(false);
+  const waMsg = buildWhatsappUrl([`Olá, Sr. Trufa! Quero pedir trufas de ${sabor.nome}.`]);
+
+  return (
+    <div
+      className="overflow-hidden rounded-2xl shadow-lg"
+      style={{ backgroundColor: "#f5ead9" }}
+    >
+      {/* Foto */}
+      <div
+        className="relative flex items-center justify-center p-8 cursor-pointer"
+        style={{ minHeight: 220 }}
+        onClick={() => setRevealed((v) => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={revealed ? "Ver trufa fechada" : "Ver recheio"}
+        onKeyDown={(e) => e.key === "Enter" && setRevealed((v) => !v)}
+      >
+        <img
+          src={trufaFechada}
+          alt={sabor.nome}
+          className={`w-40 object-contain transition-opacity duration-500 drop-shadow-lg ${
+            revealed ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        <img
+          src={sabor.recheio}
+          alt={`Recheio de ${sabor.nome}`}
+          className={`absolute w-40 object-contain transition-opacity duration-500 drop-shadow-lg ${
+            revealed ? "opacity-100" : "opacity-0"
+          }`}
+        />
+        <span
+          className="absolute bottom-3 text-[10px] font-semibold"
+          style={{ color: "rgba(43,20,8,0.40)" }}
+        >
+          {revealed ? "recheio revelado · toque para fechar" : "toque para ver o recheio"}
+        </span>
+      </div>
+
+      {/* Info + CTA */}
+      <div className="px-5 pb-5 pt-3" style={{ backgroundColor: "#2b1408" }}>
+        <h3 className="font-display text-xl text-creme">{sabor.nome}</h3>
+        <p className="mt-0.5 text-xs text-marrom-soft">{sabor.tagline}</p>
+        <a
+          href={waMsg}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-marrom-deep shadow-sm"
+          style={{ backgroundColor: sabor.accent }}
+        >
+          <MessageCircle className="h-3.5 w-3.5" />
+          Quero esse sabor
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/* ── Seção principal ── */
+export function FlavorCarouselSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef     = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const track     = trackRef.current;
+    if (!container || !track) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        // Aguarda o layout estabilizar
+        ScrollTrigger.refresh();
+
+        const totalWidth = track.scrollWidth - window.innerWidth;
+
+        gsap.to(track, {
+          x: -totalWidth,
+          ease: "none",
+          scrollTrigger: {
+            trigger: container,
+            pin: true,
+            scrub: 1,
+            start: "top top",
+            end: `+=${totalWidth}`,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            snap: {
+              snapTo: 1 / (SABORES.length - 1),
+              duration: { min: 0.2, max: 0.5 },
+              delay: 0.1,
+              ease: "power1.inOut",
+            },
+          },
+        });
+
+        return () => {};
+      });
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section className="bg-marrom">
+      {/* Cabeçalho (não pinned) */}
+      <div className="py-10 px-4 text-center sm:py-14">
+        <p className="font-script text-xl text-dourado-soft sm:text-2xl">
+          sabores fotografados
+        </p>
+        <h2 className="mt-1 font-display text-3xl text-creme sm:text-4xl lg:text-5xl">
+          5 sabores, 5 recheios reais
+        </h2>
+        <p className="mt-2 text-xs text-marrom-soft sm:text-sm hidden md:block">
+          Role a página para explorar · passe o cursor sobre a trufa para ver o recheio
+        </p>
+        <p className="mt-2 text-xs text-marrom-soft sm:text-sm md:hidden">
+          Toque na trufa para revelar o recheio
+        </p>
+      </div>
+
+      {/* ── Mobile: cards empilhados ── */}
+      <div className="md:hidden grid gap-4 px-4 pb-12">
+        {SABORES.map((sabor) => (
+          <MobileCard key={sabor.id} sabor={sabor} />
+        ))}
+      </div>
+
+      {/* ── Desktop: scroll-jacking horizontal ── */}
+      <div ref={containerRef} className="hidden md:block overflow-hidden">
+        <div
+          ref={trackRef}
+          className="flex"
+          style={{ willChange: "transform" }}
+        >
+          {SABORES.map((sabor, i) => (
+            <DesktopCard key={sabor.id} sabor={sabor} index={i} />
           ))}
         </div>
       </div>
