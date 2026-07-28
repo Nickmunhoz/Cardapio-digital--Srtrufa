@@ -7,8 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LINE1 = "Trufas que";
-const LINE2 = "viram presente.";
+const LINE1 = "Vossa Senhoria Merece";
+const LINE2 = "o Melhor Chocolate.";
 
 export function Hero() {
   const sectionRef   = useRef<HTMLElement>(null);
@@ -23,7 +23,8 @@ export function Hero() {
       mm.add("(min-width: 768px)", () => {
         const scope = heroTextRef.current!;
 
-        gsap.set(scope.querySelectorAll(".char-l1, .char-l2"), { opacity: 0 });
+        /* Apenas a linha 2 começa vazada e preenche no scroll */
+        gsap.set(scope.querySelectorAll(".char-l2"), { opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -43,26 +44,18 @@ export function Hero() {
           duration: 1,
         }, 0);
 
-        /* 2. Linha 1 — letra por letra */
-        tl.to(scope.querySelectorAll(".char-l1"), {
-          opacity: 1,
-          stagger: { each: 0.038, from: "start" },
-          duration: 0.06,
-          ease: "none",
-        }, 0);
-
-        /* 3. Linha 2 — começa após linha 1 completar */
+        /* 2. "o Melhor Chocolate." — letra por letra, fill dourado */
         tl.to(scope.querySelectorAll(".char-l2"), {
           opacity: 1,
           stagger: { each: 0.038, from: "start" },
           duration: 0.06,
           ease: "none",
-        }, 0.48);
+        }, 0.2);
       });
 
       /* ── Mobile: texto sempre sólido ── */
       mm.add("(max-width: 767px)", () => {
-        gsap.set(heroTextRef.current!.querySelectorAll(".char-l1, .char-l2"), { opacity: 1 });
+        gsap.set(heroTextRef.current!.querySelectorAll(".char-l2"), { opacity: 1 });
       });
     }, sectionRef);
 
@@ -105,30 +98,19 @@ export function Hero() {
               com modos de cavalheiro
             </span>
 
-            {/* Título com dupla camada — outline + preenchimento letra a letra */}
-            <div ref={heroTextRef} className="relative mt-5 select-none">
+            {/* Título */}
+            <h1
+              ref={heroTextRef}
+              aria-label={`${LINE1} ${LINE2}`}
+              className="mt-5 select-none font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl"
+            >
+              {/* LINE1 — sempre sólido, sem animação */}
+              <div className="text-creme">{LINE1}</div>
 
-              {/* Outline — sempre visível */}
-              <h1
-                aria-label={`${LINE1} ${LINE2}`}
-                className="font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl"
-              >
-                <div>
-                  {LINE1.split("").map((ch, i) => (
-                    <span
-                      key={i}
-                      className="inline-block"
-                      style={{
-                        WebkitTextStroke: "1.5px rgba(245,234,217,0.60)",
-                        color: "transparent",
-                        letterSpacing: ch === " " ? "0.2em" : undefined,
-                      }}
-                    >
-                      {ch}
-                    </span>
-                  ))}
-                </div>
-                <div>
+              {/* LINE2 — vazado dourado que preenche no scroll */}
+              <div className="relative">
+                {/* Outline sempre visível */}
+                <div aria-hidden>
                   {LINE2.split("").map((ch, i) => (
                     <span
                       key={i}
@@ -143,25 +125,11 @@ export function Hero() {
                     </span>
                   ))}
                 </div>
-              </h1>
-
-              {/* Preenchimento sólido por letra */}
-              <div
-                aria-hidden
-                className="absolute inset-0 font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl pointer-events-none"
-              >
-                <div>
-                  {LINE1.split("").map((ch, i) => (
-                    <span
-                      key={i}
-                      className="char-l1 inline-block text-creme"
-                      style={{ letterSpacing: ch === " " ? "0.2em" : undefined }}
-                    >
-                      {ch}
-                    </span>
-                  ))}
-                </div>
-                <div>
+                {/* Fill dourado — animado letra por letra */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 pointer-events-none"
+                >
                   {LINE2.split("").map((ch, i) => (
                     <span
                       key={i}
@@ -173,10 +141,10 @@ export function Hero() {
                   ))}
                 </div>
               </div>
-            </div>
+            </h1>
 
             <p className="mt-5 max-w-md text-sm leading-relaxed text-marrom-soft sm:text-base">
-              20 sabores em Barretos/SP. Monte sua caixinha e a gente cuida do resto.
+              Surpreenda com uma nobre caixa de trufas artesanais. São 20 sabores à sua disposição.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">

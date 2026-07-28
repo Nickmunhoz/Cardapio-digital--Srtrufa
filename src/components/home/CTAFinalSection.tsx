@@ -20,7 +20,7 @@ export function CTAFinalSection() {
           <img
             src={mascoteApontando}
             alt="Mascote Sr. Trufa apontando"
-            className="w-52 drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)] sm:w-64 lg:w-72"
+            className="w-64 sm:w-80 lg:w-96"
             width={1080}
             height={1080}
           />

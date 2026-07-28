@@ -15,7 +15,7 @@ export function ManifestoSection() {
             <img
               src={mascoteHero}
               alt="Mascote Sr. Trufa de braços abertos"
-              className="w-52 sm:w-64 lg:w-80 xl:w-96 drop-shadow-[0_20px_48px_rgba(0,0,0,0.55)]"
+              className="w-64 sm:w-80 lg:w-96 xl:w-[26rem]"
               width={1080}
               height={1080}
             />
