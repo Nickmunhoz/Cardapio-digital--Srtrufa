@@ -1,4 +1,4 @@
-import mascoteHero from "@/assets/img/brand/mascote-hero.png";
+import mascoteHero from "@/assets/img/brand/mascote.png";
 
 export function NossaHistoriaSection() {
   return (
@@ -10,7 +10,7 @@ export function NossaHistoriaSection() {
           <img
             src={mascoteHero}
             alt="Mascote Sr. Trufa"
-            className="w-48 drop-shadow-[0_16px_32px_rgba(0,0,0,0.5)] sm:w-64 lg:w-72"
+            className="w-64 drop-shadow-[0_16px_32px_rgba(0,0,0,0.5)] sm:w-80 lg:w-96"
             width={1080}
             height={1080}
           />

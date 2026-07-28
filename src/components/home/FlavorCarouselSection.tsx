@@ -58,170 +58,159 @@ const SABORES: Sabor[] = [
   },
 ];
 
-/* ── Card desktop: fundo creme, hover revela nome em quadrado ── */
+/* ══════════════════════════════════════════════
+   Card desktop — estilo feed Instagram
+   ══════════════════════════════════════════════ */
 function DesktopCard({ sabor, index }: { sabor: Sabor; index: number }) {
   const [hovered, setHovered] = useState(false);
   const waMsg = buildWhatsappUrl([`Olá, Sr. Trufa! Quero pedir trufas de ${sabor.nome}.`]);
 
   return (
     <div
-      className="relative flex-shrink-0 w-screen h-screen flex flex-col items-center justify-center"
-      style={{ backgroundColor: "#f5ead9" }}
+      className="flex-shrink-0 rounded-3xl overflow-hidden border"
+      style={{
+        width: 340,
+        backgroundColor: "#1c0d05",
+        borderColor: "rgba(201,162,74,0.20)",
+        boxShadow: "0 16px 56px rgba(0,0,0,0.55)",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* Número do card */}
-      <span
-        className="absolute top-8 right-10 font-display text-sm tracking-widest opacity-30"
-        style={{ color: "#2b1408" }}
-      >
-        0{index + 1} / 0{SABORES.length}
-      </span>
-
-      {/* Área interativa: trufa + hover overlay */}
+      {/* ── Área da imagem (topo do card) ── */}
       <div
-        className="relative flex items-center justify-center cursor-pointer"
-        style={{ width: 360, height: 360 }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onClick={() => setHovered((v) => !v)}
-        role="button"
-        tabIndex={0}
-        aria-label={`Ver detalhes de ${sabor.nome}`}
-        onKeyDown={(e) => e.key === "Enter" && setHovered((v) => !v)}
+        className="relative flex items-center justify-center"
+        style={{ height: 300, backgroundColor: "#150a03", cursor: "pointer" }}
       >
+        {/* Número */}
+        <span
+          className="absolute top-4 right-4 font-display text-xs tracking-widest opacity-35"
+          style={{ color: sabor.accent }}
+        >
+          0{index + 1}
+        </span>
+
         {/* Trufa fechada */}
         <img
           src={trufaFechada}
           alt={sabor.nome}
-          className={`absolute w-56 h-56 object-contain transition-all duration-500 drop-shadow-[0_16px_40px_rgba(43,20,8,0.22)] ${
-            hovered ? "opacity-0 scale-95" : "opacity-100 scale-100"
+          className={`absolute object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-all duration-500 ${
+            hovered ? "opacity-0 scale-90" : "opacity-100 scale-100"
           }`}
+          style={{ width: 210, height: 210 }}
         />
 
-        {/* Recheio */}
+        {/* Recheio (hover) */}
         <img
           src={sabor.recheio}
-          alt={`Recheio de ${sabor.nome}`}
-          className={`absolute w-56 h-56 object-contain transition-all duration-500 drop-shadow-[0_16px_40px_rgba(43,20,8,0.22)] ${
-            hovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          alt={`Recheio ${sabor.nome}`}
+          className={`absolute object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.6)] transition-all duration-500 ${
+            hovered ? "opacity-100 scale-100" : "opacity-0 scale-110"
           }`}
+          style={{ width: 210, height: 210 }}
         />
 
-        {/* Overlay com nome em quadrado (aparece ao hover) */}
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-400 ${
-            hovered ? "opacity-100" : "opacity-0"
+        {/* Hint hover */}
+        <span
+          className={`absolute bottom-3 text-[10px] font-semibold tracking-wider uppercase transition-opacity duration-300 ${
+            hovered ? "opacity-0" : "opacity-50"
           }`}
-          style={{ backgroundColor: "rgba(28,13,5,0.88)" }}
+          style={{ color: sabor.accent }}
         >
-          <div
-            className="border px-8 py-7 text-center"
-            style={{ borderColor: "rgba(201,162,74,0.35)" }}
-          >
-            <p
-              className="font-script text-base"
-              style={{ color: "rgba(227,205,161,0.85)" }}
-            >
-              sabor
-            </p>
-            <h3 className="mt-1 font-display text-2xl sm:text-3xl text-creme">
-              {sabor.nome}
-            </h3>
-            <div
-              className="mx-auto my-3 h-px w-10"
-              style={{ backgroundColor: sabor.accent }}
-            />
-            <p
-              className="text-xs leading-relaxed"
-              style={{ color: "rgba(201,178,158,0.75)" }}
-            >
-              {sabor.tagline}
-            </p>
-          </div>
-        </div>
+          hover · ver recheio
+        </span>
       </div>
 
-      {/* Rodapé do card */}
+      {/* ── Rodapé do card (abaixo da imagem, nunca sobreposto) ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10 py-5"
-        style={{ borderTop: "1px solid rgba(43,20,8,0.10)" }}
+        className="px-5 py-4"
+        style={{ borderTop: `1px solid rgba(201,162,74,0.12)` }}
       >
-        <div>
-          <p
-            className="font-display text-lg font-semibold"
-            style={{ color: "#2b1408" }}
-          >
-            {sabor.nome}
-          </p>
-          <p className="text-xs" style={{ color: "rgba(43,20,8,0.50)" }}>
-            {sabor.tagline}
-          </p>
+        {/* Tag de acento */}
+        <div
+          className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-marrom-deep"
+          style={{ backgroundColor: sabor.accent }}
+        >
+          sabor especial
         </div>
+
+        <h3 className="font-display text-lg leading-tight text-creme">
+          {sabor.nome}
+        </h3>
+        <p className="mt-0.5 text-xs leading-relaxed text-marrom-soft line-clamp-2">
+          {sabor.tagline}
+        </p>
+
         <a
           href={waMsg}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-marrom-deep transition hover:opacity-90"
           style={{ backgroundColor: sabor.accent }}
         >
-          <MessageCircle className="h-4 w-4" />
-          Pedir este
+          <MessageCircle className="h-3 w-3" />
+          Quero este sabor
         </a>
       </div>
     </div>
   );
 }
 
-/* ── Card mobile: clique revela recheio ── */
+/* ══════════════════════════════════════════════
+   Card mobile — clique revela recheio
+   ══════════════════════════════════════════════ */
 function MobileCard({ sabor }: { sabor: Sabor }) {
   const [revealed, setRevealed] = useState(false);
   const waMsg = buildWhatsappUrl([`Olá, Sr. Trufa! Quero pedir trufas de ${sabor.nome}.`]);
 
   return (
     <div
-      className="overflow-hidden rounded-2xl shadow-lg"
-      style={{ backgroundColor: "#f5ead9" }}
+      className="overflow-hidden rounded-2xl border"
+      style={{
+        backgroundColor: "#1c0d05",
+        borderColor: "rgba(201,162,74,0.18)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+      }}
     >
-      {/* Foto */}
+      {/* Imagem */}
       <div
-        className="relative flex items-center justify-center p-8 cursor-pointer"
-        style={{ minHeight: 220 }}
+        className="relative flex items-center justify-center"
+        style={{ height: 220, backgroundColor: "#150a03", cursor: "pointer" }}
         onClick={() => setRevealed((v) => !v)}
         role="button"
         tabIndex={0}
-        aria-label={revealed ? "Ver trufa fechada" : "Ver recheio"}
+        aria-label={revealed ? "Ver trufa fechada" : "Revelar recheio"}
         onKeyDown={(e) => e.key === "Enter" && setRevealed((v) => !v)}
       >
         <img
           src={trufaFechada}
           alt={sabor.nome}
-          className={`w-40 object-contain transition-opacity duration-500 drop-shadow-lg ${
-            revealed ? "opacity-0" : "opacity-100"
-          }`}
+          className={`absolute object-contain transition-opacity duration-500 ${revealed ? "opacity-0" : "opacity-100"}`}
+          style={{ width: 170, height: 170 }}
         />
         <img
           src={sabor.recheio}
-          alt={`Recheio de ${sabor.nome}`}
-          className={`absolute w-40 object-contain transition-opacity duration-500 drop-shadow-lg ${
-            revealed ? "opacity-100" : "opacity-0"
-          }`}
+          alt={`Recheio ${sabor.nome}`}
+          className={`absolute object-contain transition-opacity duration-500 ${revealed ? "opacity-100" : "opacity-0"}`}
+          style={{ width: 170, height: 170 }}
         />
         <span
-          className="absolute bottom-3 text-[10px] font-semibold"
-          style={{ color: "rgba(43,20,8,0.40)" }}
+          className="absolute bottom-3 text-[10px] font-semibold tracking-wider uppercase"
+          style={{ color: "rgba(201,162,74,0.50)" }}
         >
           {revealed ? "recheio revelado · toque para fechar" : "toque para ver o recheio"}
         </span>
       </div>
 
-      {/* Info + CTA */}
-      <div className="px-5 pb-5 pt-3" style={{ backgroundColor: "#2b1408" }}>
+      {/* Info */}
+      <div className="px-5 pb-5 pt-4" style={{ borderTop: "1px solid rgba(201,162,74,0.12)" }}>
         <h3 className="font-display text-xl text-creme">{sabor.nome}</h3>
         <p className="mt-0.5 text-xs text-marrom-soft">{sabor.tagline}</p>
         <a
           href={waMsg}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-marrom-deep shadow-sm"
+          className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-marrom-deep"
           style={{ backgroundColor: sabor.accent }}
         >
           <MessageCircle className="h-3.5 w-3.5" />
@@ -232,7 +221,9 @@ function MobileCard({ sabor }: { sabor: Sabor }) {
   );
 }
 
-/* ── Seção principal ── */
+/* ══════════════════════════════════════════════
+   Seção principal
+   ══════════════════════════════════════════════ */
 export function FlavorCarouselSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef     = useRef<HTMLDivElement>(null);
@@ -246,10 +237,11 @@ export function FlavorCarouselSection() {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        // Aguarda o layout estabilizar
         ScrollTrigger.refresh();
 
         const totalWidth = track.scrollWidth - window.innerWidth;
+        // Cria espaço de scroll maior que o movimento horizontal → sensação de "peso"
+        const scrollDistance = Math.max(totalWidth * 2.2, 800);
 
         gsap.to(track, {
           x: -totalWidth,
@@ -257,9 +249,9 @@ export function FlavorCarouselSection() {
           scrollTrigger: {
             trigger: container,
             pin: true,
-            scrub: 1,
+            scrub: 1.2,
             start: "top top",
-            end: `+=${totalWidth}`,
+            end: `+=${scrollDistance}`,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             snap: {
@@ -279,8 +271,8 @@ export function FlavorCarouselSection() {
   }, []);
 
   return (
-    <section className="bg-marrom">
-      {/* Cabeçalho (não pinned) */}
+    <section className="bg-marrom-deep">
+      {/* Cabeçalho */}
       <div className="py-10 px-4 text-center sm:py-14">
         <p className="font-script text-xl text-dourado-soft sm:text-2xl">
           sabores fotografados
@@ -288,11 +280,11 @@ export function FlavorCarouselSection() {
         <h2 className="mt-1 font-display text-3xl text-creme sm:text-4xl lg:text-5xl">
           5 sabores, 5 recheios reais
         </h2>
-        <p className="mt-2 text-xs text-marrom-soft sm:text-sm hidden md:block">
-          Role a página para explorar · passe o cursor sobre a trufa para ver o recheio
-        </p>
         <p className="mt-2 text-xs text-marrom-soft sm:text-sm md:hidden">
           Toque na trufa para revelar o recheio
+        </p>
+        <p className="mt-2 hidden md:block text-xs text-marrom-soft sm:text-sm">
+          Role para explorar · passe o cursor sobre a trufa para ver o recheio
         </p>
       </div>
 
@@ -304,15 +296,21 @@ export function FlavorCarouselSection() {
       </div>
 
       {/* ── Desktop: scroll-jacking horizontal ── */}
-      <div ref={containerRef} className="hidden md:block overflow-hidden">
+      <div
+        ref={containerRef}
+        className="hidden md:flex items-center"
+        style={{ height: "88vh" }}
+      >
         <div
           ref={trackRef}
-          className="flex"
+          className="flex gap-6 px-10"
           style={{ willChange: "transform" }}
         >
           {SABORES.map((sabor, i) => (
             <DesktopCard key={sabor.id} sabor={sabor} index={i} />
           ))}
+          {/* Espaço extra à direita para o último card ficar confortável */}
+          <div style={{ width: "calc(50vw - 170px)", flexShrink: 0 }} />
         </div>
       </div>
     </section>
