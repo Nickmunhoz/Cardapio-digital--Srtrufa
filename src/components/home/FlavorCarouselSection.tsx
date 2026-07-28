@@ -274,16 +274,16 @@ export function FlavorCarouselSection() {
       {/* Cabeçalho */}
       <div className="py-10 px-4 text-center sm:py-14">
         <p className="font-script text-xl text-dourado-soft sm:text-2xl">
-          sabores fotografados
+          os favoritos do pessoal
         </p>
         <h2 className="mt-1 font-display text-3xl text-creme sm:text-4xl lg:text-5xl">
-          5 sabores, 5 recheios reais
+          Os que o pessoal não para de pedir.
         </h2>
         <p className="mt-2 text-xs text-marrom-soft sm:text-sm md:hidden">
-          Toque na trufa para revelar o recheio
+          Toque na trufa para revelar o recheio · tem muito mais no cardápio
         </p>
         <p className="mt-2 hidden md:block text-xs text-marrom-soft sm:text-sm">
-          Role para explorar · passe o cursor sobre a trufa para ver o recheio
+          Role para explorar · tem muito mais aguardando no cardápio completo
         </p>
       </div>
 

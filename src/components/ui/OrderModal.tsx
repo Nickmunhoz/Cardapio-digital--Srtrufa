@@ -19,10 +19,22 @@ import { buildWhatsappUrl, formatBRL } from "@/lib/whatsapp";
 type Step = "sabores" | "contato" | "enviando" | "sucesso" | "erro";
 const CATEGORIAS: Categoria[] = ["classicos", "frutas", "brancos", "especiais"];
 
-export function OrderModal({ onClose }: { onClose: () => void }) {
+function initialTab(counts: Record<string, number>): Categoria {
+  const firstId = Object.keys(counts)[0];
+  if (!firstId) return "classicos";
+  return truffles.find((t) => t.id === firstId)?.categoria ?? "classicos";
+}
+
+export function OrderModal({
+  onClose,
+  initialCounts = {},
+}: {
+  onClose: () => void;
+  initialCounts?: Record<string, number>;
+}) {
   const [step, setStep] = useState<Step>("sabores");
-  const [tab, setTab] = useState<Categoria>("classicos");
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [tab, setTab] = useState<Categoria>(() => initialTab(initialCounts));
+  const [counts, setCounts] = useState<Record<string, number>>(initialCounts);
   const [form, setForm] = useState({
     nome: "",
     telefone: "",

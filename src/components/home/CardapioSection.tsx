@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ShoppingBag, ChevronRight, Instagram, Building2, User } from "lucide-react";
+import { ShoppingBag, ChevronRight, ChevronDown, Instagram, Building2, User } from "lucide-react";
 import { truffles, categoriaLabel, type Categoria } from "@/data/truffles";
 import { config } from "@/data/config";
 import { formatBRL } from "@/lib/whatsapp";
@@ -12,7 +12,12 @@ type Modo = "b2c" | "b2b";
 
 export function CardapioSection() {
   const [modo, setModo] = useState<Modo>("b2c");
+  const [expanded, setExpanded] = useState<string | null>(null);
   const { openOrderModal } = useOrderModal();
+
+  function toggleFlavor(id: string) {
+    setExpanded((prev) => (prev === id ? null : id));
+  }
 
   return (
     <section id="cardapio" className="bg-marrom py-16 sm:py-24">
@@ -73,18 +78,49 @@ export function CardapioSection() {
                   <h3 className="font-script text-5xl text-dourado-soft sm:text-6xl">
                     {categoriaLabel[cat]}
                   </h3>
-                  <ul className="mt-4 flex max-w-lg flex-col gap-1">
+                  <ul className="mt-4 flex max-w-lg flex-col">
                     {truffles
                       .filter((t) => t.categoria === cat)
-                      .map((t) => (
-                        <li
-                          key={t.id}
-                          className="flex items-center gap-2 border-b border-dourado/15 py-2.5 text-creme"
-                        >
-                          <ChevronRight className="h-3.5 w-3.5 flex-none text-dourado" />
-                          <span className="font-medium">{t.nome}</span>
-                        </li>
-                      ))}
+                      .map((t) => {
+                        const isOpen = expanded === t.id;
+                        return (
+                          <li key={t.id} className="border-b border-dourado/15 last:border-b-0">
+                            {/* Linha clicável */}
+                            <button
+                              type="button"
+                              onClick={() => toggleFlavor(t.id)}
+                              className="flex w-full items-center gap-2 py-2.5 text-left text-creme transition hover:text-dourado-soft"
+                            >
+                              <ChevronRight className="h-3.5 w-3.5 flex-none text-dourado" />
+                              <span className="font-medium flex-1">{t.nome}</span>
+                              {isOpen
+                                ? <ChevronDown className="h-3.5 w-3.5 flex-none text-dourado" />
+                                : <ChevronRight className="h-3.5 w-3.5 flex-none text-dourado/40 rotate-90" />
+                              }
+                            </button>
+
+                            {/* Painel expandido */}
+                            {isOpen && (
+                              <div className="pb-4 pl-5 pr-1">
+                                <p className="text-xs leading-relaxed text-marrom-soft">
+                                  {t.descricao}
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setExpanded(null);
+                                    openOrderModal({ [t.id]: 1 });
+                                  }}
+                                  className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-dourado px-4 py-1.5 text-xs font-semibold text-marrom-deep shadow-sm transition hover:bg-dourado-soft"
+                                >
+                                  <ShoppingBag className="h-3 w-3" />
+                                  Quero este sabor
+                                </button>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
                   </ul>
                 </div>
               ))}

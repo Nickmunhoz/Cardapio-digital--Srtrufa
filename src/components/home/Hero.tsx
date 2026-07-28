@@ -7,8 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LINE1 = "Vossa Senhoria Merece";
-const LINE2 = "o Melhor Chocolate.";
+const LINE1 = "Vossa Senhoria";
+const LINE2 = "Merece o";
+const LINE3 = "Melhor Chocolate.";
 
 export function Hero() {
   const sectionRef   = useRef<HTMLElement>(null);
@@ -98,20 +99,21 @@ export function Hero() {
               com modos de cavalheiro
             </span>
 
-            {/* Título */}
+            {/* Título — 3 linhas */}
             <h1
               ref={heroTextRef}
-              aria-label={`${LINE1} ${LINE2}`}
+              aria-label={`${LINE1} ${LINE2} ${LINE3}`}
               className="mt-5 select-none font-display text-4xl leading-[1.12] sm:text-5xl lg:text-6xl xl:text-7xl"
             >
-              {/* LINE1 — sempre sólido, sem animação */}
+              {/* LINE1 e LINE2 — sempre sólidos */}
               <div className="text-creme">{LINE1}</div>
+              <div className="text-creme">{LINE2}</div>
 
-              {/* LINE2 — vazado dourado que preenche no scroll */}
+              {/* LINE3 — vazado dourado que preenche no scroll */}
               <div className="relative">
                 {/* Outline sempre visível */}
                 <div aria-hidden>
-                  {LINE2.split("").map((ch, i) => (
+                  {LINE3.split("").map((ch, i) => (
                     <span
                       key={i}
                       className="inline-block"
@@ -126,11 +128,8 @@ export function Hero() {
                   ))}
                 </div>
                 {/* Fill dourado — animado letra por letra */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 pointer-events-none"
-                >
-                  {LINE2.split("").map((ch, i) => (
+                <div aria-hidden className="absolute inset-0 pointer-events-none">
+                  {LINE3.split("").map((ch, i) => (
                     <span
                       key={i}
                       className="char-l2 inline-block text-dourado"

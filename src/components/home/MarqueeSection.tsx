@@ -21,6 +21,8 @@ const WAVE = [
 // Texto longo o suficiente para preencher os 2880 de caminho
 const FAIXA = TEXTO.repeat(6);
 
+const TEXTO_MOBILE = TEXTO.repeat(10);
+
 export function MarqueeSection() {
   return (
     <div className="bg-marrom-deep border-y border-dourado/20 overflow-hidden">
@@ -41,9 +43,23 @@ export function MarqueeSection() {
         </svg>
       </div>
 
-      {/* Faixa de texto curvado */}
-      <div className="py-3 overflow-hidden" aria-hidden>
-        {/* Container 200% wide animado por translateX(-50%) = -1 viewport width */}
+      {/* ── Mobile: marquee horizontal plano ── */}
+      <div className="md:hidden overflow-hidden py-5" aria-hidden>
+        <div className="animate-marquee">
+          {[0, 1].map((n) => (
+            <span
+              key={n}
+              className="whitespace-nowrap pr-8 text-[11px] font-bold tracking-[0.22em] uppercase"
+              style={{ color: "rgba(201,162,74,0.65)" }}
+            >
+              {TEXTO_MOBILE}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Desktop: onda SVG curvada ── */}
+      <div className="hidden md:block py-3 overflow-hidden" aria-hidden>
         <div
           style={{
             width: "200%",
@@ -60,7 +76,6 @@ export function MarqueeSection() {
             <defs>
               <path id="sr-trufa-wave" d={WAVE} />
             </defs>
-
             <text
               style={{
                 fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
