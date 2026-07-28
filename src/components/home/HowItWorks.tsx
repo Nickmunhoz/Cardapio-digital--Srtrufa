@@ -5,7 +5,7 @@ const STEPS = [
   {
     n: "1",
     t: "Escolha",
-    d: "Percorra o cardápio e escolha entre os 44 sabores artesanais.",
+    d: "Percorra o cardápio e escolha entre os 20 sabores artesanais.",
   },
   {
     n: "2",

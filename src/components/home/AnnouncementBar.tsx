@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { Star, MapPin, MessageCircle, Package } from "lucide-react";
 
 const AVISOS = [
-  "🍫 44 sabores de trufas artesanais — feitas à mão",
-  "✨ Cada trufa conferida uma a uma antes de chegar até você",
-  "📍 Retirada grátis em Barretos/SP · entregamos na região",
-  "💬 Faça seu pedido pelo WhatsApp, rapidinho",
+  { icon: Star,          text: "20 sabores de trufas artesanais — feitas à mão" },
+  { icon: Package,       text: "Cada trufa conferida uma a uma antes de chegar até você" },
+  { icon: MapPin,        text: "Retirada grátis em Barretos/SP · entregamos na região" },
+  { icon: MessageCircle, text: "Faça seu pedido pelo WhatsApp" },
 ];
 
 export function AnnouncementBar() {
@@ -15,11 +16,15 @@ export function AnnouncementBar() {
     return () => clearInterval(id);
   }, []);
 
+  const aviso = AVISOS[i];
+  const Icon = aviso.icon;
+
   return (
-    <div className="border-y border-dourado/30 bg-marrom text-creme">
-      <div className="mx-auto flex h-10 max-w-6xl items-center justify-center overflow-hidden px-4 text-center sm:h-11">
-        <p key={i} className="animate-fade-up text-xs font-medium text-creme/95 sm:text-sm">
-          {AVISOS[i]}
+    <div className="border-b border-dourado/20 bg-marrom-deep">
+      <div className="mx-auto flex h-10 max-w-6xl items-center justify-center gap-2 overflow-hidden px-4">
+        <p key={i} className="animate-fade-up flex items-center gap-2 text-xs font-medium text-creme/80 sm:text-sm">
+          <Icon className="h-3.5 w-3.5 flex-none text-dourado" />
+          {aviso.text}
         </p>
       </div>
     </div>

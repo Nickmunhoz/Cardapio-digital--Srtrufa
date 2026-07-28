@@ -1,47 +1,41 @@
-import mascote from "@/assets/img/brand/mascote.png";
-
-const BADGES = [
-  "Feito à mão",
-  "Conferido um a um",
-  "Embalado com carinho",
-  "Atendimento direto",
-];
+import mascoteHero from "@/assets/img/brand/mascote-hero.png";
 
 export function NossaHistoriaSection() {
   return (
-    <section id="historia" className="bg-marrom py-16 text-creme sm:py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="order-2 lg:order-1">
+    <section id="historia" className="bg-marrom py-14 text-creme sm:py-20">
+      <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 lg:grid-cols-[1fr_1.3fr]">
+
+        {/* Mascote */}
+        <div className="flex justify-center lg:justify-start">
           <img
-            src={mascote}
+            src={mascoteHero}
             alt="Mascote Sr. Trufa"
-            className="mx-auto h-56 w-auto drop-shadow-[0_18px_30px_rgba(0,0,0,0.45)] sm:h-72"
-            width={721}
-            height={896}
+            className="w-48 drop-shadow-[0_16px_32px_rgba(0,0,0,0.5)] sm:w-64 lg:w-72"
+            width={1080}
+            height={1080}
           />
         </div>
-        <div className="order-1 lg:order-2">
-          <span className="font-script block text-xl text-dourado-soft/90">
+
+        {/* Texto */}
+        <div>
+          <span className="font-script block text-xl text-dourado-soft/90 sm:text-2xl">
             Nossa história
           </span>
           <h2 className="mt-2 font-display text-3xl text-creme sm:text-4xl">
             Cada trufa, um detalhe.
           </h2>
-          <p className="mt-4 text-creme/85">
-            O Sr. Trufa nasceu do gosto por detalhes e por chocolate feito de verdade.
-            Cada trufa é feita à mão, conferida uma a uma e embalada com capricho, do
-            jeito antigo em que cada detalhe importa.
+          <p className="mt-4 text-sm leading-relaxed text-creme/75 sm:text-base">
+            O Sr. Trufa nasceu do gosto por detalhes e por chocolate de verdade.
+            Cada trufa é feita à mão, conferida uma a uma e embalada com cuidado —
+            do jeito antigo em que cada detalhe ainda importa.
           </p>
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {BADGES.map((b) => (
-              <li
-                key={b}
-                className="rounded-full border border-dourado-soft/40 bg-creme/5 px-3 py-1.5 text-xs font-semibold text-dourado-soft"
-              >
-                {b}
-              </li>
-            ))}
-          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-creme/75 sm:text-base">
+            Barretos/SP, desde o início. Com o mesmo capricho de sempre.
+          </p>
+
+          <div className="brand-divider mt-6 max-w-[120px]">
+            <span className="brand-divider__diamond" />
+          </div>
         </div>
       </div>
     </section>

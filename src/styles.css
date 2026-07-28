@@ -162,11 +162,23 @@
   animation: walk 7s ease-in-out infinite;
 }
 
+/* Marquee horizontal infinito */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-pulse-scarcity,
   .animate-walk,
-  .animate-spin-mascote {
+  .animate-spin-mascote,
+  .animate-marquee {
     animation: none;
   }
 }

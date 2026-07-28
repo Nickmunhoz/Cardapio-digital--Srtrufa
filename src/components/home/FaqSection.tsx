@@ -17,7 +17,7 @@ const FAQ = [
   },
   {
     q: "As trufas são feitas por vocês?",
-    a: "Sim, são artesanais e feitas à mão, com 44 sabores para você escolher.",
+    a: "Sim, são artesanais e feitas à mão, com 20 sabores para você escolher.",
   },
 ];
 
