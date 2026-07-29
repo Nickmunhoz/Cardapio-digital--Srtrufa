@@ -80,6 +80,15 @@ export function OrderModal({
     });
   }
 
+  function setQtyDirect(id: string, val: number) {
+    const next = Math.max(0, Math.min(99, isNaN(val) ? 0 : val));
+    setCounts((prev) => {
+      const updated = { ...prev, [id]: next };
+      if (next === 0) delete updated[id];
+      return updated;
+    });
+  }
+
   function pedirWhatsapp() {
     if (!entregaValida) return;
     const linhas = [
@@ -175,26 +184,55 @@ export function OrderModal({
             </div>
 
             <div className="flex-1 overflow-y-auto px-4 py-3">
-              <ul className="grid grid-cols-1 gap-1.5">
+              <ul className="grid grid-cols-1 gap-2">
                 {visiveis.map((t) => {
                   const qty = counts[t.id] ?? 0;
                   return (
                     <li key={t.id}
-                      className={["flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 transition",
+                      className={["rounded-xl border px-3 pt-2.5 pb-3 transition",
                         qty > 0 ? "border-dourado bg-dourado/15" : "border-dourado/20 bg-marrom-deep/40"].join(" ")}>
-                      <span className="text-sm font-semibold text-creme">{t.nome}</span>
-                      <div className="flex items-center gap-2">
-                        <button type="button" onClick={() => setQty(t.id, -1)} disabled={qty === 0}
-                          aria-label={`Remover ${t.nome}`}
-                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme disabled:opacity-30">
-                          <Minus className="h-3.5 w-3.5" />
-                        </button>
-                        <span className="w-5 text-center text-sm font-bold tabular-nums text-creme">{qty}</span>
-                        <button type="button" onClick={() => setQty(t.id, 1)}
-                          aria-label={`Adicionar ${t.nome}`}
-                          className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme">
-                          <Plus className="h-3.5 w-3.5" />
-                        </button>
+                      {/* Nome + controles +/- */}
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-sm font-semibold text-creme">{t.nome}</span>
+                        <div className="flex items-center gap-1.5">
+                          <button type="button" onClick={() => setQty(t.id, -1)} disabled={qty === 0}
+                            aria-label={`Remover ${t.nome}`}
+                            className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme disabled:opacity-30">
+                            <Minus className="h-3.5 w-3.5" />
+                          </button>
+                          {/* Input editável */}
+                          <input
+                            type="number"
+                            min={0}
+                            max={99}
+                            value={qty === 0 ? "" : qty}
+                            placeholder="0"
+                            onChange={(e) => setQtyDirect(t.id, parseInt(e.target.value))}
+                            onFocus={(e) => e.target.select()}
+                            className="w-9 bg-transparent text-center text-sm font-bold tabular-nums text-creme outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          />
+                          <button type="button" onClick={() => setQty(t.id, 1)}
+                            aria-label={`Adicionar ${t.nome}`}
+                            className="grid h-7 w-7 place-items-center rounded-full border border-dourado/40 text-creme">
+                            <Plus className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                      {/* Slider */}
+                      <div className="mt-2.5 px-0.5">
+                        <input
+                          type="range"
+                          min={0}
+                          max={20}
+                          value={qty}
+                          onChange={(e) => setQtyDirect(t.id, parseInt(e.target.value))}
+                          className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-dourado/20 outline-none"
+                          style={{ accentColor: "#c9a24a" }}
+                          aria-label={`Quantidade de ${t.nome}`}
+                        />
+                        <div className="mt-1 flex justify-between text-[9px] text-marrom-soft/50 tabular-nums">
+                          <span>0</span><span>10</span><span>20</span>
+                        </div>
                       </div>
                     </li>
                   );

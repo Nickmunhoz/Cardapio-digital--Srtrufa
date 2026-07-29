@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from "react";
 import heroVideo from "@/assets/video/hero.mp4";
 import { config } from "@/data/config";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { useOrderModal } from "@/components/ui/OrderModalProvider";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -24,6 +25,7 @@ const hollowStyle: React.CSSProperties = {
 };
 
 export function Hero() {
+  const { openOrderModal } = useOrderModal();
   const sectionRef   = useRef<HTMLElement>(null);
   const innerRef     = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
@@ -150,11 +152,12 @@ export function Hero() {
                 className="rounded-full bg-dourado px-6 py-3 text-sm font-semibold text-marrom-deep shadow-md transition hover:bg-dourado-soft sm:px-7 sm:py-3.5 sm:text-base">
                 Ver o cardápio
               </a>
-              <a href={buildWhatsappUrl(["Olá, Sr. Trufa! Quero fazer um pedido."])}
-                target="_blank" rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => openOrderModal()}
                 className="rounded-full border border-dourado/40 px-6 py-3 text-sm font-semibold text-dourado-soft transition hover:border-dourado hover:bg-dourado/10 sm:px-7 sm:py-3.5 sm:text-base">
-                Pedir pelo WhatsApp
-              </a>
+                Fazer o pedido
+              </button>
             </div>
 
             <p className="mt-5 text-xs text-marrom-soft/55">
