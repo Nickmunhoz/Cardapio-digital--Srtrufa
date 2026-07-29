@@ -1,6 +1,36 @@
+import { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import mascoteHero from "@/assets/img/brand/mascote-hero.png";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function ManifestoSection() {
+  const mascoteRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const el = mascoteRef.current;
+    if (!el) return;
+
+    /* Scroll animation — mascote bola entra conforme o usuário rola */
+    const ctx = gsap.context(() => {
+      gsap.from(el, {
+        scale: 0.6,
+        y: 60,
+        opacity: 0,
+        ease: "none",   /* scrub requer ease: none para movimento linear */
+        scrollTrigger: {
+          scrub: 1,
+          trigger: el,
+          start: "top 90%",
+          end: "bottom 30%",
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-marrom-deep py-16 sm:py-24">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -10,15 +40,23 @@ export function ManifestoSection() {
       <div className="relative mx-auto max-w-5xl px-4">
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
-          {/* Mascote de braços abertos */}
+          {/* Mascote em formato de bola */}
           <div className="flex-none flex justify-center lg:order-2">
-            <img
-              src={mascoteHero}
-              alt="Mascote Sr. Trufa de braços abertos"
-              className="w-64 sm:w-80 lg:w-96 xl:w-[26rem]"
-              width={1080}
-              height={1080}
-            />
+            <div
+              ref={mascoteRef}
+              className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 xl:w-[26rem] xl:h-[26rem]
+                         rounded-full overflow-hidden border-2 border-dourado/20
+                         shadow-[0_0_60px_rgba(201,162,74,0.12)]"
+              style={{ willChange: "transform, opacity" }}
+            >
+              <img
+                src={mascoteHero}
+                alt="Mascote Sr. Trufa"
+                className="w-full h-full object-cover object-center scale-110"
+                width={1080}
+                height={1080}
+              />
+            </div>
           </div>
 
           {/* Texto */}
