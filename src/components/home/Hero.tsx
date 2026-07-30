@@ -144,7 +144,7 @@ export function Hero() {
             </h1>
 
             <p className="mt-5 max-w-md text-sm leading-relaxed text-marrom-soft sm:text-base">
-              Surpreenda com uma nobre caixa de trufas artesanais. São 20 sabores à sua disposição.
+              Surpreenda-se com nobres trufas artesanais. São 20 sabores à sua disposição.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
