@@ -239,7 +239,7 @@ export function FlavorCarouselSection() {
           os favoritos do pessoal
         </p>
         <h2 className="mt-1 font-display text-3xl sm:text-4xl lg:text-5xl text-marrom-deep md:text-creme">
-          Os que o pessoal não para de pedir.
+          Todo mundo pede. Descubra por quê.
         </h2>
         <p className="mt-2 text-xs text-marrom/60 sm:text-sm md:hidden">
           Toque na trufa para revelar o recheio · tem muito mais no cardápio
