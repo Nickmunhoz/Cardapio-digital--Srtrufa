@@ -24,7 +24,7 @@ export const config = {
    * Preço padrão de cada trufa avulsa (R$).
    * ALTERE AQUI PARA ATUALIZAR EM TODO O SITE.
    */
-  precoTrufa: 7.5,
+  precoTrufa: 8.0,
 
   // ── Preços B2B (Empresas) ─────────────────────────────
   /**
